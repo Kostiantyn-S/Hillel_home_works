@@ -130,7 +130,7 @@ windowSize.__proto__.showSize = function () {
     var oldWidth = void 0;
     var oldHeight = void 0;
 
-    if (width !== oldWidth && height !== oldHeight) {
+    if (width !== oldWidth || height !== oldHeight) {
         setTimeout(function () {
             document.getElementById('window-size').innerHTML = width + ' x ' + height;
         }, 2000);
