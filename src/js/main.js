@@ -2,4 +2,5 @@
 
 //=require partials/app.js
 
-//=require partials/clocks.js
+//=require partials/clock.js
+//=require partials/windowSize.js

@@ -1,10 +1,10 @@
 let clock = {};
 
-clock.__proto__.creatingTimeElement = function () {
-    let timeConteiner = document.createElement('div');
-    let parrent = document.getElementById('footer');
-    timeConteiner.id = 'time';
-    parrent.appendChild (timeConteiner);
+clock.__proto__.creatingElement = function (conteinerId, parrentId) {
+    let conteiner = document.createElement('div');
+    let parrent = document.getElementById(parrentId);
+    conteiner.id = conteinerId;
+    parrent.appendChild (conteiner);
 };
 
 clock.__proto__.showTime = function () {
@@ -13,19 +13,26 @@ clock.__proto__.showTime = function () {
     let hours = time.getHours();
     let minutes = time.getMinutes();
     let seconds = time.getSeconds();
+
     let correctHours;
     let correctMinutes;
     let correctSeconds;
 
-    let correctingHours = () => (correctHours = (hours < 10) ? '0' + hours : hours);
+    function correctingHours () {
+        correctHours = (hours < 10) ? '0' + hours : hours;
+    };
 
-    let correctingMinutes = () => (correctMinutes = (minutes < 10) ? '0' + minutes : minutes);
+    function correctingMinutes () {
+        correctMinutes = (minutes < 10) ? '0' + minutes : minutes;
+    };
 
-    let correctingSeconds = () => (correctSeconds = (seconds < 10) ? '0' + seconds : seconds);
+    function correctingSeconds () {
+        correctSeconds = (seconds < 10) ? '0' + seconds : seconds;
+    };
 
-    (function changeCheckHours () {
-        if (correctHours !== hours) {
-            correctingHours();
+    (function changeCheckSeconds () {
+        if (correctSeconds !== seconds) {
+            correctingSeconds();
         }
     })();
 
@@ -35,20 +42,13 @@ clock.__proto__.showTime = function () {
         }
     })();
 
-    (function changeCheckSeconds () {
-        if (correctSeconds !== seconds) {
-            correctingSeconds();
+    (function changeCheckHours () {
+        if (correctHours !== hours) {
+            correctingHours();
         }
     })();
 
     document.getElementById('time').innerHTML = correctHours + ':' + correctMinutes + ':' + correctSeconds;
-};
-
-clock.__proto__.creatingDateElement = function () {
-    let dateConteiner = document.createElement('div');
-    let parrent = document.getElementById('footer');
-    dateConteiner.id = 'date';
-    parrent.appendChild (dateConteiner);
 };
 
 clock.__proto__.showDate = function () {
@@ -57,9 +57,9 @@ clock.__proto__.showDate = function () {
     let day = date.getDate();
     let month = date.getMonth() + 1;
     let year = date.getFullYear();
-    let lastDay = day;
-    let lastMonth = month;
-    let lastYear = year;
+    let lastDay;
+    let lastMonth;
+    let lastYear;
 
     let changeCheckDay = () => (day = (day !== lastDay) ? day : lastDay);
     changeCheckDay();
@@ -73,7 +73,7 @@ clock.__proto__.showDate = function () {
     document.getElementById('date').innerHTML = day + '/' + month + '/' + year;
 };
 
-clock.creatingDateElement();
+clock.creatingElement('date', 'footer');
 setInterval (clock.showDate, 1000);
-clock.creatingTimeElement();
+clock.creatingElement('time', 'footer');
 setInterval (clock.showTime, 1000);
