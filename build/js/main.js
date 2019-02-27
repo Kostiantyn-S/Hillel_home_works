@@ -1,145 +1,200 @@
 'use strict';
 
-var clock = {};
+var myClock = new Function();
 
-clock.__proto__.creatingElement = function (conteinerId, parrentId) {
-
-    var conteiner = document.createElement('div');
+myClock.creatingLastElement = function (parrentId, conteinerTag, conteinerId, conteinerClassName) {
 
     var parrent = document.getElementById(parrentId);
 
-    conteiner.id = conteinerId;
+    var conteiner = document.createElement(conteinerTag);
+
+    (function () {
+
+        if (conteinerId !== undefined) {
+
+            conteiner.id = conteinerId;
+        }
+    })();
+
+    (function () {
+
+        if (conteinerClassName !== undefined) {
+
+            conteiner.className = conteinerClassName;
+        }
+    })();
 
     parrent.appendChild(conteiner);
 };
 
-clock.__proto__.showTime = function () {
+myClock.showClock = function (daysConteinerId, weeksKonteinerId, hoursConteinerId, minutesConteinerId, secondsConteinerId) {
 
-    var time = new Date();
+    var clock = new Date();
 
-    var hours = time.getHours();
+    var year = clock.getFullYear();
 
-    var minutes = time.getMinutes();
+    var month = clock.getMonth() + 1;
 
-    var seconds = time.getSeconds();
+    var weekDay = clock.getDay();
 
-    var correctHours = void 0;
+    var weekDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
-    var correctMinutes = void 0;
+    var day = clock.getDate();
 
-    var correctSeconds = void 0;
+    var hours = clock.getHours();
 
-    function correctingHours() {
+    var minutes = clock.getMinutes();
 
-        correctHours = hours < 10 ? '0' + hours : hours;
+    var seconds = clock.getSeconds();
+
+    month = month < 10 ? '0' + month : month;
+
+    day = day < 10 ? '0' + day : day;
+
+    hours = hours < 10 ? '0' + hours : hours;
+
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+
+    seconds = seconds < 10 ? '0' + seconds : seconds;
+
+    document.getElementById(daysConteinerId).innerHTML = day + '/' + month + '/' + year;
+
+    document.getElementById(weeksKonteinerId).innerHTML = weekDays[weekDay];
+
+    document.getElementById(hoursConteinerId).innerHTML = hours;
+
+    document.getElementById(minutesConteinerId).innerHTML = ':' + minutes;
+
+    document.getElementById(secondsConteinerId).innerHTML = ':' + seconds;
+
+    function changeDate() {
+
+        var clock = new Date();
+
+        var year = clock.getFullYear();
+
+        var month = clock.getMonth() + 1;
+
+        var weekDay = clock.getDay();
+
+        month = month < 10 ? '0' + month : month;
+
+        day = day < 10 ? '0' + day : day;
+
+        document.getElementById(daysConteinerId).innerHTML = day + '/' + month + '/' + year;
+
+        document.getElementById(weeksKonteinerId).innerHTML = weekDays[weekDay];
     };
 
-    function correctingMinutes() {
+    function changeHours() {
 
-        correctMinutes = minutes < 10 ? '0' + minutes : minutes;
+        var clock = new Date();
+
+        var hours = clock.getHours();
+
+        hours = hours < 10 ? '0' + hours : hours;
+
+        document.getElementById(hoursConteinerId).innerHTML = hours;
+
+        return hours;
     };
 
-    function correctingSeconds() {
+    function changeMinutes() {
 
-        correctSeconds = seconds < 10 ? '0' + seconds : seconds;
+        var clock = new Date();
+
+        var minutes = clock.getMinutes();
+
+        minutes = minutes < 10 ? '0' + minutes : minutes;
+
+        document.getElementById(minutesConteinerId).innerHTML = ':' + minutes;
+
+        return minutes;
     };
 
-    (function changeCheckSeconds() {
+    function changeSeconds() {
 
-        if (correctSeconds !== seconds) {
+        var clock = new Date();
 
-            correctingSeconds();
+        var seconds = clock.getSeconds();
+
+        seconds = seconds < 10 ? '0' + seconds : seconds;
+
+        document.getElementById(secondsConteinerId).innerHTML = ':' + seconds;
+
+        return seconds;
+    };
+
+    setInterval(function show() {
+
+        var seconds = changeSeconds();
+
+        var minutes = void 0;
+
+        var hours = void 0;
+
+        if (seconds == 0) {
+
+            minutes = changeMinutes();
         }
-    })();
 
-    (function changeCheckMinutes() {
+        if (minutes == 0) {
 
-        if (correctMinutes !== minutes) {
-
-            correctingMinutes();
+            hours = changeHours();
         }
-    })();
 
-    (function changeCheckHours() {
+        if (hours == 0) {
 
-        if (correctHours !== hours) {
-
-            correctingHours();
+            changeDate();
         }
-    })();
-
-    document.getElementById('time').innerHTML = correctHours + ':' + correctMinutes + ':' + correctSeconds;
+    }, 1000);
 };
 
-clock.__proto__.showDate = function () {
+myClock.creatingLastElement('footer', 'div', 'date', 'date');
 
-    var date = new Date();
+myClock.creatingLastElement('date', 'span', 'date-week');
 
-    var day = date.getDate();
+myClock.creatingLastElement('date', 'span', 'date-day');
 
-    var month = date.getMonth() + 1;
+myClock.creatingLastElement('footer', 'div', 'time', 'time');
 
-    var year = date.getFullYear();
+myClock.creatingLastElement('time', 'span', 'time-hours');
 
-    var lastDay = void 0;
+myClock.creatingLastElement('time', 'span', 'time-minutes');
 
-    var lastMonth = void 0;
+myClock.creatingLastElement('time', 'span', 'time-seconds');
 
-    var lastYear = void 0;
+myClock.showClock('date-day', 'date-week', 'time-hours', 'time-minutes', 'time-seconds');
+var windowSize = new Function();
 
-    var changeCheckDay = function changeCheckDay() {
-        return day = day !== lastDay ? day : lastDay;
-    };
-
-    changeCheckDay();
-
-    var changeCheckMonth = function changeCheckMonth() {
-        return month = month !== lastMonth ? month : lastMonth;
-    };
-
-    changeCheckMonth();
-
-    var changeCheckYear = function changeCheckYear() {
-        return year = year !== lastYear ? year : lastYear;
-    };
-
-    changeCheckYear();
-
-    document.getElementById('date').innerHTML = day + '/' + month + '/' + year;
-};
-
-clock.creatingElement('date', 'footer');
-
-setInterval(clock.showDate, 1000);
-
-clock.creatingElement('time', 'footer');
-
-setInterval(clock.showTime, 1000);
-var windowSize = {};
-
-windowSize.__proto__.creatingElement = function (conteinerId, parrentId) {
-    var conteiner = document.createElement('div');
+windowSize.creatingLastElement = function (parrentId, conteinerTag, conteinerId, conteinerClassName) {
     var parrent = document.getElementById(parrentId);
-    conteiner.id = conteinerId;
+    var conteiner = document.createElement(conteinerTag);
+
+    (function () {
+        if (conteinerId !== undefined) {
+            conteiner.id = conteinerId;
+        }
+    })();
+
+    (function () {
+        if (conteinerClassName !== undefined) {
+            conteiner.className = conteinerClassName;
+        }
+    })();
+
     parrent.appendChild(conteiner);
 };
 
-windowSize.__proto__.showSize = function () {
+windowSize.showSize = function (conteinerId) {
     var width = document.documentElement.clientWidth;
     var height = document.documentElement.clientHeight;
-    var oldWidth = void 0;
-    var oldHeight = void 0;
-
-    if (width !== oldWidth || height !== oldHeight) {
-        setTimeout(function () {
-            document.getElementById('window-size').innerHTML = width + ' x ' + height;
-        }, 2000);
-    }
-
-    oldWidth = width;
-    oldHeight = height;
+    document.getElementById(conteinerId).innerHTML = width + ' x ' + height;
 };
 
-windowSize.creatingElement('window-size', 'header');
-setInterval(windowSize.showSize, 0);
+windowSize.creatingLastElement('header', 'div', 'window-size', 'window-size');
+windowSize.showSize('window-size');
+window.addEventListener('resize', function () {
+    setTimeout(windowSize.showSize, 2000, 'window-size');
+});
 //# sourceMappingURL=../maps/main.js.map
