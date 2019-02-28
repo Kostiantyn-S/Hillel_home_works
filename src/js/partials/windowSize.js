@@ -1,6 +1,6 @@
 let windowSize = new Function;
 
-windowSize.creatingLastElement = function (parrentId, conteinerTag, conteinerId, conteinerClassName) {
+windowSize.creatingElement = function (parrentId, conteinerTag, conteinerId, conteinerClassName, conteinerPosition = null) {
     let parrent = document.getElementById(parrentId);
     let conteiner = document.createElement(conteinerTag);
 
@@ -16,16 +16,16 @@ windowSize.creatingLastElement = function (parrentId, conteinerTag, conteinerId,
         }
     })();
 
-    parrent.appendChild (conteiner);
+    parrent.insertBefore (conteiner, parrent.children[conteinerPosition]);
 };
 
 windowSize.showSize = function (conteinerId) {
     let width = document.documentElement.clientWidth;
     let height = document.documentElement.clientHeight;
     document.getElementById(conteinerId).innerHTML = width + ' x ' + height;
-}
+};
 
-windowSize.creatingLastElement ('header', 'div', 'window-size', 'window-size');
+windowSize.creatingElement ('footer', 'div', 'window-size', 'window-size');
 windowSize.showSize('window-size');
 window.addEventListener('resize', function () {
     setTimeout(windowSize.showSize, 2000, 'window-size');
