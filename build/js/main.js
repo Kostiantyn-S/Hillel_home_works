@@ -245,7 +245,7 @@ spentTime.creatingElement('spentTime_value-and-text', 'div', 'spentTime_text', '
 document.getElementById('spentTime_text').innerHTML = 'seconds';
 
 spentTime.showStopWatch('spentTime_value');
-var createTable = {};
+var createTable = new Function();
 
 createTable.creatingElement = function (parrentId, conteinerTag, conteinerId, conteinerClassName) {
     var conteinerPosition = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : null;
@@ -272,10 +272,8 @@ createTable.validatingInput = function (inputElementId, popupId) {
     document.getElementById(inputElementId).addEventListener('input', function () {
         var value = parseInt(document.getElementById(inputElementId).value);
         if (value > 100 || value < 1) {
-            document.getElementById('table-button').hidden = true;
             document.getElementById(popupId).hidden = false;
         } else {
-            document.getElementById('table-button').hidden = false;
             document.getElementById(popupId).hidden = true;
         }
     });
@@ -291,28 +289,34 @@ createTable.createForm = function () {
     document.getElementById('table-columns-conteiner').innerHTML = '<label for="table-columns">How much rows in table you want to create?</label><input id="table-columns" name="table-columns" type="number" placeholder="35" required><span id="popup-column" class="popup-column" hidden>Value must be integer more than 0 but less than 100</span>';
 
     createTable.creatingElement('create-table', 'div', 'table-button-conteiner', 'table-button-conteiner', 2);
-    document.getElementById('table-button-conteiner').innerHTML = '<input type="button" value="Create" id="table-button" class="table-button" hidden></input>';
+    document.getElementById('table-button-conteiner').innerHTML = '<input type="button" value="Create" id="table-button" class="table-button"></input>';
 };
 
-createTable.showResultTable = function (buttonId, inputRowsId, inputColumnsId) {
+createTable.showResultTable = function (buttonId, inputRowsId, rowsPopupId, inputColumnsId, columnsPopupId) {
     document.getElementById(buttonId).addEventListener('click', function () {
-        if (document.getElementById('result-table') !== null) {
-            document.getElementById('result-table').remove();
-        }
-        var rowsValue = parseInt(document.getElementById(inputRowsId).value);
-        var columnsValue = parseInt(document.getElementById(inputColumnsId).value);
-        var table = void 0;
-        var row = void 0;
-        var column = void 0;
 
-        createTable.creatingElement('article', 'table', 'result-table', 'result-table', 1);
-        table = document.getElementById('result-table');
+        if (document.getElementById(rowsPopupId).hidden !== false && document.getElementById(columnsPopupId).hidden !== false && document.getElementById(inputRowsId).value !== false && document.getElementById(inputColumnsId).value !== false) {
 
-        for (var i = 0; i < rowsValue; i++) {
-            row = table.insertRow();
+            (function isOldResult() {
+                if (document.getElementById('result-table') !== null) {
+                    document.getElementById('result-table').remove();
+                }
+            })();
 
-            for (var k = 0; k < columnsValue; k++) {
-                row.insertCell();
+            var rowsValue = parseInt(document.getElementById(inputRowsId).value);
+            var columnsValue = parseInt(document.getElementById(inputColumnsId).value);
+            var table = void 0;
+            var row = void 0;
+
+            createTable.creatingElement('article', 'table', 'result-table', 'result-table', 1);
+            table = document.getElementById('result-table');
+
+            for (var i = 0; i < rowsValue; i++) {
+                row = table.insertRow();
+
+                for (var k = 0; k < columnsValue; k++) {
+                    row.insertCell();
+                }
             }
         }
     });
@@ -335,6 +339,6 @@ createTable.turnOnFunction = function () {
     createTable.createForm();
     createTable.validatingInput('table-rows', 'popup-row');
     createTable.validatingInput('table-columns', 'popup-column');
-    createTable.showResultTable('table-button', 'table-rows', 'table-columns');
+    createTable.showResultTable('table-button', 'table-rows', 'popup-row', 'table-columns', 'popup-column');
 };
 //# sourceMappingURL=../maps/main.js.map
