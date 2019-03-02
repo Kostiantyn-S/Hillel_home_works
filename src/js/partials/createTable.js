@@ -70,7 +70,14 @@ createTable.showResultTable = function (buttonId, inputRowsId, rowsPopupId, inpu
                     row.insertCell();
                 }
             }
+            createTable.showIndex();
         }
+    });
+};
+
+createTable.showIndex = function () {
+    document.getElementById('result-table').addEventListener('click', function () {
+        alert (`Строка ${event.target.parentNode.rowIndex + 1} Колонка ${event.target.cellIndex + 1}`);
     });
 };
 

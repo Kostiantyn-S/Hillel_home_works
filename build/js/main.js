@@ -318,7 +318,14 @@ createTable.showResultTable = function (buttonId, inputRowsId, rowsPopupId, inpu
                     row.insertCell();
                 }
             }
+            createTable.showIndex();
         }
+    });
+};
+
+createTable.showIndex = function () {
+    document.getElementById('result-table').addEventListener('click', function () {
+        alert('\u0421\u0442\u0440\u043E\u043A\u0430 ' + (event.target.parentNode.rowIndex + 1) + ' \u041A\u043E\u043B\u043E\u043D\u043A\u0430 ' + (event.target.cellIndex + 1));
     });
 };
 
