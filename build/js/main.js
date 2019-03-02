@@ -1,27 +1,40 @@
 'use strict';
 
+(function nav() {
+    document.getElementById('header').addEventListener('click', function () {
+        if (document.getElementById('nav-input').checked === true) {
+            document.getElementById('nav-input').checked = false;
+        }
+    });
+
+    document.getElementById('footer').addEventListener('click', function () {
+        if (document.getElementById('nav-input').checked === true) {
+            document.getElementById('nav-input').checked = false;
+        }
+    });
+
+    document.getElementById('article').addEventListener('click', function () {
+        if (document.getElementById('nav-input').checked === true) {
+            document.getElementById('nav-input').checked = false;
+        }
+    });
+})();
 var myClock = new Function();
 
 myClock.creatingElement = function (parrentId, conteinerTag, conteinerId, conteinerClassName) {
     var conteinerPosition = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : null;
 
-
     var parrent = document.getElementById(parrentId);
-
     var conteiner = document.createElement(conteinerTag);
 
     (function () {
-
         if (conteinerId !== undefined) {
-
             conteiner.id = conteinerId;
         }
     })();
 
     (function () {
-
         if (conteinerClassName !== undefined) {
-
             conteiner.className = conteinerClassName;
         }
     })();
@@ -30,122 +43,81 @@ myClock.creatingElement = function (parrentId, conteinerTag, conteinerId, contei
 };
 
 myClock.showClock = function (daysConteinerId, weeksKonteinerId, hoursConteinerId, minutesConteinerId, secondsConteinerId) {
-
     showDate();
-
     showHours();
-
     showMinutes();
-
     showSeconds();
 
     function showDate() {
-
         var clock = new Date();
-
         var year = clock.getFullYear();
-
         var month = clock.getMonth() + 1;
-
         var weekDay = clock.getDay();
-
         var weekDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-
         var day = clock.getDate();
 
         (function () {
-
             month = month < 10 ? '0' + month : month;
         })();
 
         (function () {
-
             day = day < 10 ? '0' + day : day;
         })();
 
         document.getElementById(daysConteinerId).innerHTML = day + '/' + month + '/' + year;
-
         document.getElementById(weeksKonteinerId).innerHTML = weekDays[weekDay];
     }
 
     function showHours() {
-
         var clock = new Date();
-
         var hours = clock.getHours();
-
         hours = hours < 10 ? '0' + hours : hours;
-
         document.getElementById(hoursConteinerId).innerHTML = hours;
-
         return hours;
     }
 
     function showMinutes() {
-
         var clock = new Date();
-
         var minutes = clock.getMinutes();
-
         minutes = minutes < 10 ? '0' + minutes : minutes;
-
         document.getElementById(minutesConteinerId).innerHTML = ':' + minutes;
-
         return minutes;
     }
 
     function showSeconds() {
-
         var clock = new Date();
-
         var seconds = clock.getSeconds();
-
         seconds = seconds < 10 ? '0' + seconds : seconds;
-
         document.getElementById(secondsConteinerId).innerHTML = ':' + seconds;
-
         return seconds;
     }
 
     setInterval(function showAll() {
-
         var seconds = showSeconds();
-
         var minutes = void 0;
-
         var hours = void 0;
 
         if (seconds === '00') {
-
             minutes = showMinutes();
         }
 
         if (minutes === '00') {
-
             hours = showHours();
         }
 
         if (hours === '00') {
-
             showDate();
         }
     }, 1000);
 };
 
 myClock.creatingElement('header', 'div', 'date', 'date', 0);
-
 myClock.creatingElement('date', 'span', 'date-week');
-
 myClock.creatingElement('date', 'span', 'date-day');
-
 myClock.creatingElement('header', 'div', 'time', 'time', 1);
-
 myClock.creatingElement('time', 'span', 'time-hours');
-
 myClock.creatingElement('time', 'span', 'time-minutes');
-
 myClock.creatingElement('time', 'span', 'time-seconds');
-
 myClock.showClock('date-day', 'date-week', 'time-hours', 'time-minutes', 'time-seconds');
 var windowSize = new Function();
 
