@@ -83,20 +83,15 @@ createTable.showIndex = function () {
 
 createTable.turnOnFunction = function () {
 
-    (function removeForm () {
-        if (document.getElementById('create-table') !== null) {
-            document.getElementById('create-table').remove();
-        }
-    })();
-
-    (function removeTable () {
-        if (document.getElementById('result-table') !== null) {
-            document.getElementById('result-table').remove();
-        }
-    })();
+    if (document.getElementById('article').innerHTML !== "") {
+        clearInterval(slider.timerId);
+        document.getElementById('article').innerHTML = "";
+    }
 
     createTable.createForm();
     createTable.validatingInput ('table-rows', 'popup-row');
     createTable.validatingInput ('table-columns', 'popup-column');
     createTable.showResultTable ('table-button', 'table-rows', 'popup-row', 'table-columns', 'popup-column');
 };
+
+document.getElementById('nav_item-createTable').addEventListener('click', createTable.turnOnFunction);
