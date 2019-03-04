@@ -32,7 +32,7 @@ Slider.prototype.createDOM = function () {
 };
 
 Slider.prototype.set = function (image) {
-    document.getElementById("slider").style.backgroundImage = `url('../img/slider/${image}')`;
+    document.getElementById("slider").style.backgroundImage = `url('img/slider/${image}')`;
 };
 
 Slider.prototype.initial = function () {
