@@ -406,6 +406,14 @@ slider.turnOn = function () {
         slider.initial();
         slider.timer();
 
+        document.getElementById('slider').addEventListener('mouseover', function () {
+            clearInterval(slider.timerId);
+        });
+
+        document.getElementById('slider').addEventListener('mouseout', function () {
+            slider.timer();
+        });
+
         document.getElementById('slider-button-left').addEventListener('click', function () {
             slider.scrollLeft();
         });
@@ -417,4 +425,39 @@ slider.turnOn = function () {
 };
 
 slider.turnOn();
+function ClearAllButtton() {}
+
+ClearAllButtton.prototype.createElement = function (parrentId, conteinerTag, conteinerId, conteinerClassName) {
+    var conteinerPosition = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : null;
+
+    var parrent = document.getElementById(parrentId);
+    var conteiner = document.createElement(conteinerTag);
+
+    (function () {
+        if (conteinerId !== undefined) {
+            conteiner.id = conteinerId;
+        }
+    })();
+
+    (function () {
+        if (conteinerClassName !== undefined) {
+            conteiner.className = conteinerClassName;
+        }
+    })();
+
+    parrent.insertBefore(conteiner, parrent.children[conteinerPosition]);
+};
+
+var clearAll = new ClearAllButtton();
+
+clearAll.turnOn = function () {
+    clearAll.createElement('header', 'a', 'clearAll', 'clearAll', 0);
+    document.getElementById('clearAll').innerHTML = 'Clear All';
+    document.getElementById('clearAll').addEventListener('click', function () {
+        clearInterval(slider.timerId);
+        document.getElementById('article').innerHTML = '';
+    });
+};
+
+clearAll.turnOn();
 //# sourceMappingURL=../maps/main.js.map

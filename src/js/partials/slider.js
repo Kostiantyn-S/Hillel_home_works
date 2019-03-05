@@ -81,6 +81,14 @@ slider.turnOn = function () {
         slider.initial();
         slider.timer();
 
+        document.getElementById('slider').addEventListener ('mouseover', function () {
+            clearInterval(slider.timerId);
+        });
+
+        document.getElementById('slider').addEventListener ('mouseout', function () {
+            slider.timer();
+        });
+
         document.getElementById('slider-button-left').addEventListener ('click', function () {
             slider.scrollLeft();
         });

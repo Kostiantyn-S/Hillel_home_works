@@ -4,3 +4,4 @@
 //=require partials/spentTime.js
 //=require partials/createTable.js
 //=require partials/slider.js
+//=require partials/clearAllButton.js
