@@ -5,3 +5,4 @@
 //=require partials/createTable.js
 //=require partials/slider.js
 //=require partials/clearAllButton.js
+//=require partials/superButtons.js

@@ -27,6 +27,7 @@ clearAll.turnOn = function () {
     document.getElementById('clearAll').addEventListener('click', function () {
         clearInterval(slider.timerId);
         document.getElementById('article').innerHTML = '';
+        document.getElementById('article').style.height = "80vh";
     });
 };
 

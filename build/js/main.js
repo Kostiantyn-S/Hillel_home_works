@@ -14,8 +14,10 @@
     });
 
     document.getElementById('article').addEventListener('DOMNodeInserted', function () {
-        if (document.getElementById('article').innerHTML !== false) {
+        if (document.getElementById('article').scrollHeight > 500) {
             document.getElementById('article').style.height = "auto";
+        } else {
+            document.getElementById('article').style.height = "80vh";
         }
     });
 
@@ -394,7 +396,7 @@ Slider.prototype.timer = function () {
 
     this.timerId = setInterval(function () {
         self.scrollRight();
-    }, 8000);
+    }, 6000);
 };
 
 var slider = new Slider();
@@ -456,8 +458,49 @@ clearAll.turnOn = function () {
     document.getElementById('clearAll').addEventListener('click', function () {
         clearInterval(slider.timerId);
         document.getElementById('article').innerHTML = '';
+        document.getElementById('article').style.height = "80vh";
     });
 };
 
 clearAll.turnOn();
+
+function Button() {};
+
+Button.prototype.createElement = function (parrentId, elementTag, elementId, elementClassName, elementValue, elementType, elementBackground) {
+    var elementPosition = arguments.length > 7 && arguments[7] !== undefined ? arguments[7] : null;
+
+    var element = document.createElement(elementTag);
+
+    element.id = elementId;
+    element.className = elementClassName;
+    element.value = elementValue;
+    element.type = elementType;
+    element.background = elementBackground;
+    document.getElementById(parrentId).insertBefore(element, document.getElementById(parrentId).children[elementPosition]);
+};
+
+Button.prototype.clickMe = function (event) {
+    if (event.target.style.background !== event.target.background) {
+        event.target.style.background = event.target.background;
+    } else {
+        event.target.style.background = 'grey';
+    }
+};
+
+var button = new Button();
+
+button.createDom = function () {
+    button.createElement('article', 'input', 'firstButton', 'superButton', 'First Button', 'button', 'red', 0);
+    button.createElement('article', 'input', 'secondButton', 'superButton', 'Second Button', 'button', 'green', 1);
+    button.createElement('article', 'input', 'thirdButton', 'superButton', 'Third Button', 'button', 'blue', 2);
+};
+
+button.turnOn = function () {
+    button.createDom();
+    document.getElementById('firstButton').addEventListener("click", button.clickMe);
+    document.getElementById('secondButton').addEventListener("click", button.clickMe);
+    document.getElementById('thirdButton').addEventListener("click", button.clickMe);
+};
+
+document.getElementById('nav_item-superButtons').addEventListener('click', button.turnOn);
 //# sourceMappingURL=../maps/main.js.map

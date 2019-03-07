@@ -69,7 +69,7 @@ Slider.prototype.timer = function () {
 
     this.timerId = setInterval (function () {
         self.scrollRight();
-    }, 8000);
+    }, 6000);
 };
 
 let slider = new Slider;
