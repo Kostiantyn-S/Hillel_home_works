@@ -19,6 +19,13 @@ Button.prototype.clickMe = function (event) {
     }
 };
 
+Button.prototype.cleaning = function () {
+    if (document.getElementById('article').innerHTML !== "") {
+        clearInterval(this.timerId);
+        document.getElementById('article').innerHTML = "";
+    }
+};
+
 let button = new Button;
 
 button.createDom = function () {
@@ -28,6 +35,7 @@ button.createDom = function () {
 };
 
 button.turnOn = function () {
+    button.cleaning();
     button.createDom();
     document.getElementById('firstButton').addEventListener("click", button.clickMe);
     document.getElementById('secondButton').addEventListener("click", button.clickMe);
