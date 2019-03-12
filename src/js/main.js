@@ -6,3 +6,6 @@
 //=require partials/slider.js
 //=require partials/clearAllButton.js
 //=require partials/superButtons.js
+//=require partials/studentsTable/createDOM.js
+//=require partials/studentsTable/validation.js
+//=require partials/studentsTable/activateForm.js

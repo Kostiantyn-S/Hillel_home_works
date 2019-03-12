@@ -13,14 +13,6 @@
         }
     });
 
-    document.getElementById('article').addEventListener('DOMNodeInserted', function () {
-        if (document.getElementById('article').scrollHeight > 500) {
-            document.getElementById('article').style.height = "auto";
-        } else {
-            document.getElementById('article').style.height = "80vh";
-        }
-    });
-
     document.getElementById('article').addEventListener('click', function () {
         if (document.getElementById('nav-input').checked === true) {
             document.getElementById('nav-input').checked = false;
@@ -458,7 +450,6 @@ clearAll.turnOn = function () {
     document.getElementById('clearAll').addEventListener('click', function () {
         clearInterval(slider.timerId);
         document.getElementById('article').innerHTML = '';
-        document.getElementById('article').style.height = "80vh";
     });
 };
 
@@ -511,4 +502,463 @@ button.turnOn = function () {
 };
 
 document.getElementById('nav_item-superButtons').addEventListener('click', button.turnOn);
+function CreateElement() {
+    this.parrent;
+    this.element;
+};
+
+CreateElement.prototype.create = function (parrentId, elementTag) {
+    this.parrent = document.getElementById(parrentId);
+    this.element = document.createElement(elementTag);
+    return this;
+};
+
+CreateElement.prototype.id = function (elementId) {
+    this.element.id = elementId;
+    return this;
+};
+
+CreateElement.prototype.class = function (className) {
+    this.element.className = className;
+    return this;
+};
+
+CreateElement.prototype.type = function (type) {
+    this.element.type = type;
+    return this;
+};
+
+CreateElement.prototype.value = function (value) {
+    this.element.value = value;
+    return this;
+};
+
+CreateElement.prototype.innerHTML = function (text) {
+    this.element.innerHTML = text;
+    return this;
+};
+
+CreateElement.prototype.position = function () {
+    var position = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+
+    this.parrent.insertBefore(this.element, this.parrent.children[position]);
+    return this;
+};
+
+var element = new CreateElement();
+
+element.for = function (htmlFor) {
+    this.element.htmlFor = htmlFor;
+    return this;
+};
+
+element.required = function (value) {
+    this.element.required = value;
+    return this;
+};
+
+element.placeholder = function (text) {
+    this.element.placeholder = text;
+    return this;
+};
+
+element.cleaning = function () {
+    if (document.getElementById('article').innerHTML !== "") {
+        clearInterval(slider.timerId);
+        document.getElementById('article').innerHTML = "";
+    };
+};
+
+element.createForm = function () {
+    this.create('article', 'div').id('studentsTable-title').class('studentsTable-title').innerHTML('Students table').position(0);
+
+    this.create('article', 'form').id('studentsForm').class('studentsForm').position(1);
+
+    this.create('studentsForm', 'div').id('studentsForm-inputs').class('studentsForm-inputs').position(0);
+
+    this.create('studentsForm-inputs', 'div').id('studentsForm-name').class('studentsForm-inputConteiner').position(0);
+    this.create('studentsForm-name', 'label').id('label-name').class('studentsForm-label').for('input-name').innerHTML('Name: ').position(0);
+    this.create('studentsForm-name', 'input').id('input-name').class('studentsForm-input').type('text').required(true).placeholder('Kostiantyn').position(1);
+    this.create('studentsForm-name', 'span').id('message-name').class('studentsForm-message').innerHTML('The name must consist of uppercase or lowercase latin letters or symbols "-" and "space", max length 20 symbols.').position(2);
+
+    this.create('studentsForm-inputs', 'div').id('studentsForm-surname').class('studentsForm-inputConteiner').position(1);
+    this.create('studentsForm-surname', 'label').id('label-surname').class('studentsForm-label').for('input-surname').innerHTML('Surname: ').position(0);
+    this.create('studentsForm-surname', 'input').id('input-surname').class('studentsForm-input').type('text').required(true).placeholder('Starchyk').position(1);
+    this.create('studentsForm-surname', 'span').id('message-surname').class('studentsForm-message').innerHTML('The surname must consist of uppercase or lowercase latin letters or symbols "-" and "space", max length 20 symbols.').position(2);
+
+    this.create('studentsForm-inputs', 'div').id('studentsForm-admission').class('studentsForm-inputConteiner').position(2);
+    this.create('studentsForm-admission', 'label').id('label-admission').class('studentsForm-label').for('input-admission').innerHTML('Admission year: ').position(0);
+    this.create('studentsForm-admission', 'input').id('input-admission').class('studentsForm-input').type('number').required(true).placeholder('2006').position(1);
+    this.create('studentsForm-admission', 'span').id('message-admission').class('studentsForm-message').innerHTML('The admission year must be positive integer consists of four numbers.').position(2);
+
+    this.create('studentsForm-inputs', 'div').id('studentsForm-ending').class('studentsForm-inputConteiner').position(3);
+    this.create('studentsForm-ending', 'label').id('label-ending').class('studentsForm-label').for('input-ending').innerHTML('Year of ending: ').position(0);
+    this.create('studentsForm-ending', 'input').id('input-ending').class('studentsForm-input').type('number').required(true).placeholder('2011').position(1);
+    this.create('studentsForm-ending', 'span').id('message-ending').class('studentsForm-message').innerHTML('The year of ending must be positive integer consists of four numbers.').position(2);
+
+    this.create('studentsForm-inputs', 'div').id('studentsForm-site').class('studentsForm-inputConteiner').position(4);
+    this.create('studentsForm-site', 'label').id('label-site').class('studentsForm-label').for('input-site').innerHTML('Site: ').position(0);
+    this.create('studentsForm-site', 'input').id('input-site').class('studentsForm-input').type('text').placeholder('www.google.com').position(1);
+
+    this.create('studentsForm-inputs', 'div').id('studentsForm-filter').class('studentsForm-inputConteiner').position(5);
+    this.create('studentsForm-filter', 'label').id('label-filter').class('studentsForm-label').for('input-filter').innerHTML('Filter: ').position(0);
+    this.create('studentsForm-filter', 'input').id('input-filter').class('studentsForm-input').type('text').placeholder('St').position(1);
+
+    this.create('studentsForm', 'div').id('studentsForm-buttons').class('studentsForm-buttons').position(1);
+    this.create('studentsForm-buttons', 'input').type('button').value('Add to table').id('button-add').class('studentsForm-button').position(0);
+    this.create('studentsForm-buttons', 'input').type('button').value('Clear form').id('button-clear').class('studentsForm-button').position(1);
+    this.create('studentsForm-buttons', 'input').type('button').value('Save table').id('button-save').class('studentsForm-button').position(2);
+    this.create('studentsForm-buttons', 'input').type('button').value('Apply filter').id('button-applyFilter').class('studentsForm-button').position(3);
+    this.create('studentsForm-buttons', 'input').type('button').value('Delete filter').id('button-delFilter').class('studentsForm-button').position(4);
+};
+
+element.createTable = function () {
+    this.create('article', 'table').id('studentsTable').class('studentsTable').position(2);
+    this.create('studentsTable', 'tr').id('studentsTable-head').class('studentsTable-head').position(0);
+    this.create('studentsTable-head', 'td').id('head-name').class('head-name').innerHTML('Name').position(0);
+    this.create('studentsTable-head', 'td').id('head-surname').class('head-surname').innerHTML('Surname').position(1);
+    this.create('studentsTable-head', 'td').id('head-admission').class('head-admission').innerHTML('Admission year &#11015&#11014').position(2);
+    this.create('studentsTable-head', 'td').id('head-ending').class('head-ending').innerHTML('Year of ending &#11015&#11014').position(3);
+    this.create('studentsTable-head', 'td').id('head-site').class('head-site').innerHTML('Site').position(4);
+    this.create('studentsTable-head', 'td').id('head-edit').class('head-edit').position(5);
+    this.create('studentsTable-head', 'td').id('head-delete').class('head-delete').position(6);
+};
+
+element.loadTable = function () {
+    window.addEventListener('DOMContentLoaded', function () {
+        if (localStorage.getItem('table') !== null) {
+            document.getElementById('studentsTable').innerHTML = localStorage.getItem('table');
+        };
+    });
+};
+
+element.createDOM = function () {
+    this.cleaning();
+    this.createForm();
+    this.createTable();
+    this.loadTable();
+};
+var FormValidation = new Function();
+
+FormValidation.prototype.valideToLatinSymbols = function (inputId, popupId) {
+    var element = document.getElementById(inputId);
+
+    for (var i = 0; i < element.value.length; i++) {
+        if ((element.value.charCodeAt(i) < 65 || element.value.charCodeAt(i) > 90) && (element.value.charCodeAt(i) < 97 || element.value.charCodeAt(i) > 122) && element.value.charCodeAt(i) !== 45 && element.value.charCodeAt(i) !== 32) {
+            document.getElementById(popupId).style.visibility = "visible";
+        } else {
+            document.getElementById(popupId).style.visibility = "hidden";
+        };
+    };
+};
+
+FormValidation.prototype.valideStringToLength = function (inputId, popupId) {
+    var element = document.getElementById(inputId);
+
+    if (document.getElementById(popupId).style.visibility = "hidden" && element.value.length > 20) {
+        document.getElementById(popupId).style.visibility = "visible";
+    };
+};
+
+FormValidation.prototype.validateNumber = function (inputId, popupId) {
+    var element = document.getElementById(inputId);
+
+    if (element.value.length < 4 || element.value.length > 4 || element.value < 0 || Number.isInteger(Number(element.value)) === false) {
+        document.getElementById(popupId).style.visibility = "visible";
+    } else {
+        document.getElementById(popupId).style.visibility = "hidden";
+    };
+};
+
+var validation = new FormValidation();
+
+validation.validateName = function () {
+    var self = this;
+
+    document.getElementById('input-name').addEventListener('input', function () {
+        self.valideToLatinSymbols('input-name', 'message-name');
+        self.valideStringToLength('input-name', 'message-name');
+    });
+};
+
+validation.validateSurname = function () {
+    var self = this;
+
+    document.getElementById('input-surname').addEventListener('input', function () {
+        self.valideToLatinSymbols('input-surname', 'message-surname');
+        self.valideStringToLength('input-surname', 'message-surname');
+    });
+};
+
+validation.validateAdmission = function () {
+    var self = this;
+
+    document.getElementById('input-admission').addEventListener('input', function () {
+        self.validateNumber('input-admission', 'message-admission');
+    });
+};
+
+validation.validateEnding = function () {
+    var self = this;
+
+    document.getElementById('input-ending').addEventListener('input', function () {
+        self.validateNumber('input-ending', 'message-ending');
+    });
+};
+
+validation.turnOn = function () {
+    this.validateName();
+    this.validateSurname();
+    this.validateAdmission();
+    this.validateEnding();
+};
+var FormFunctions = new Function();
+
+FormFunctions.prototype.clearForm = function () {
+    for (var _len = arguments.length, inputsId = Array(_len), _key = 0; _key < _len; _key++) {
+        inputsId[_key] = arguments[_key];
+    }
+
+    for (var i = 0; i < inputsId.length; i++) {
+        document.getElementById(arguments[i]).value = '';
+    };
+};
+
+FormFunctions.prototype.addData = function () {
+    var table = document.getElementById('studentsTable');
+    var row = void 0;
+    var cell = void 0;
+    var cellClassNames = ['result-name', 'result-syrname', 'result-admission', 'result-ending', 'result-site'];
+
+    row = table.insertRow();
+
+    for (var _len2 = arguments.length, inputsId = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+        inputsId[_key2] = arguments[_key2];
+    }
+
+    for (var i = 0; i < inputsId.length; i++) {
+        cell = row.insertCell();
+        cell.className = cellClassNames[i];
+        cell.innerHTML = document.getElementById(inputsId[i]).value;
+    };
+
+    cell = row.insertCell();
+    cell.className = 'result-edit';
+    cell.innerHTML = '&#9998';
+
+    cell = row.insertCell();
+    cell.className = 'result-delete';
+    cell.innerHTML = '&#10008';
+};
+
+FormFunctions.prototype.deleteRow = function () {
+    event.target.parentElement.remove();
+};
+
+FormFunctions.prototype.editRow = function () {
+    for (var _len3 = arguments.length, inputsId = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
+        inputsId[_key3] = arguments[_key3];
+    }
+
+    for (var i = 0; i < inputsId.length; i++) {
+        document.getElementById(inputsId[i]).value = event.target.parentElement.children[i].innerHTML;
+    };
+
+    this.deleteRow();
+};
+
+FormFunctions.prototype.filter = function (inputId, tableId) {
+    var value = document.getElementById(inputId).value;
+    var children = document.getElementById(tableId).childNodes[0].childNodes;
+    var result = void 0;
+
+    for (var i = 1; i < children.length; i++) {
+        for (var k = 0; k < 5; k++) {
+            result = children[i].childNodes[k].innerHTML;
+            if (result.indexOf(value) !== -1) {
+                children[i].style.display = null;
+                break;
+            } else {
+                children[i].style.display = 'none';
+            };
+        };
+    };
+};
+
+FormFunctions.prototype.stopFilter = function (tableId, filterInputId) {
+    var children = document.getElementById(tableId).childNodes[0].childNodes;
+
+    for (var i = 0; i < children.length; i++) {
+        if (children[i].style.display === 'none') {
+            children[i].style.display = null;
+        };
+    };
+
+    document.getElementById(filterInputId).value = '';
+};
+
+FormFunctions.prototype.sortToHigher = function (tableId, numberOfColumn) {
+    var children = document.getElementById(tableId).childNodes[0].childNodes;
+    var values = [];
+    var value = void 0;
+
+    for (var i = 1; i < children.length; i++) {
+        values[i] = children[i].childNodes[numberOfColumn].innerHTML;
+    };
+
+    values.sort(function (a, b) {
+        return a - b;
+    });
+
+    for (var k = 0; k < values.length - 1; k++) {
+        value = values[k];
+
+        for (var s = 1; s < children.length; s++) {
+            if (children[s].childNodes[numberOfColumn].innerHTML == value) {
+                document.getElementById(tableId).childNodes[0].appendChild(children[s]);
+            };
+        };
+    };
+};
+
+FormFunctions.prototype.sortToLower = function (tableId, numberOfColumn) {
+    var children = document.getElementById(tableId).childNodes[0].childNodes;
+    var values = [];
+    var value = void 0;
+
+    for (var i = 1; i < children.length; i++) {
+        values[i] = children[i].childNodes[numberOfColumn].innerHTML;
+    };
+
+    values.sort(function (a, b) {
+        return b - a;
+    });
+
+    for (var k = 0; k < values.length - 1; k++) {
+        value = values[k];
+
+        for (var s = 1; s < children.length; s++) {
+            if (children[s].childNodes[numberOfColumn].innerHTML == value) {
+                document.getElementById(tableId).childNodes[0].appendChild(children[s]);
+            };
+        };
+    };
+};
+
+var activateForm = new FormFunctions();
+activateForm.label = false;
+
+activateForm.clearInputs = function () {
+    var self = this;
+
+    document.getElementById('button-clear').addEventListener('click', function () {
+        self.clearForm('input-name', 'input-surname', 'input-admission', 'input-ending', 'input-site', 'input-filter');
+    });
+};
+
+activateForm.add = function () {
+    var self = this;
+
+    document.getElementById('button-add').addEventListener('click', function () {
+        if (document.getElementById('input-name').value !== '' && document.getElementById('input-surname').value !== '' && document.getElementById('input-admission').value !== '' && document.getElementById('input-ending').value !== '' && document.getElementById('message-name').style.visibility !== "visible" && document.getElementById('message-surname').style.visibility !== "visible" && document.getElementById('message-admission').style.visibility !== "visible" && document.getElementById('message-ending').style.visibility !== "visible") {
+            self.addData('input-name', 'input-surname', 'input-admission', 'input-ending', 'input-site');
+            self.clearForm('input-name', 'input-surname', 'input-admission', 'input-ending', 'input-site');
+        };
+    });
+};
+
+activateForm.delete = function () {
+    var self = this;
+
+    document.getElementById('studentsTable').addEventListener('click', function () {
+        if (event.target.className === 'result-delete') {
+            self.deleteRow();
+        };
+    });
+};
+
+activateForm.edit = function () {
+    var self = this;
+
+    document.getElementById('studentsTable').addEventListener('click', function () {
+        if (event.target.className === 'result-edit') {
+            self.editRow('input-name', 'input-surname', 'input-admission', 'input-ending', 'input-site');
+        };
+    });
+};
+
+activateForm.save = function () {
+    document.getElementById('button-save').addEventListener('click', function () {
+        localStorage.setItem('table', document.getElementById('studentsTable').innerHTML);
+    });
+};
+
+activateForm.applyFilter = function () {
+    var self = this;
+
+    document.getElementById('button-applyFilter').addEventListener('click', function () {
+        self.filter('input-filter', 'studentsTable');
+    });
+};
+
+activateForm.deleteFilter = function () {
+    var self = this;
+
+    document.getElementById('button-delFilter').addEventListener('click', function () {
+        self.stopFilter('studentsTable', 'input-filter');
+    });
+};
+
+activateForm.sortAdmission = function () {
+    if (this.label === false) {
+        this.sortToLower('studentsTable', 2);
+        this.label = true;
+    } else {
+        this.sortToHigher('studentsTable', 2);
+        this.label = false;
+    };
+};
+
+activateForm.sortEnding = function () {
+    if (this.label === false) {
+        this.sortToLower('studentsTable', 3);
+        this.label = true;
+    } else {
+        this.sortToHigher('studentsTable', 3);
+        this.label = false;
+    };
+};
+
+activateForm.sortTable = function () {
+    var self = this;
+
+    document.getElementById('studentsTable').addEventListener('click', function () {
+        if (event.target.id === 'head-admission') {
+            self.sortAdmission();
+        } else if (event.target.id === 'head-ending') {
+            self.sortEnding();
+        };
+    });
+};
+
+activateForm.turnOn = function () {
+    this.clearInputs();
+    this.add();
+    this.delete();
+    this.edit();
+    this.save();
+    this.applyFilter();
+    this.deleteFilter();
+    this.sortTable();
+};
+
+activateForm.activate = function () {
+    element.createDOM();
+    validation.turnOn();
+    activateForm.turnOn();
+};
+
+document.getElementById('nav_item-studentsTable').addEventListener('click', function () {
+    activateForm.activate();
+});
 //# sourceMappingURL=../maps/main.js.map
