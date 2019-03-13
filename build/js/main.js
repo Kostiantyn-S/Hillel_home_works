@@ -1,22 +1,10 @@
 'use strict';
 
-(function nav() {
-    document.getElementById('header').addEventListener('click', function () {
-        if (document.getElementById('nav-input').checked === true) {
+(function closeNav() {
+    document.addEventListener('click', function () {
+        if (event.target !== document.getElementById('nav-input') && event.target !== document.getElementById('nav-menu') && document.getElementById('nav-input').checked === true) {
             document.getElementById('nav-input').checked = false;
-        }
-    });
-
-    document.getElementById('footer').addEventListener('click', function () {
-        if (document.getElementById('nav-input').checked === true) {
-            document.getElementById('nav-input').checked = false;
-        }
-    });
-
-    document.getElementById('article').addEventListener('click', function () {
-        if (document.getElementById('nav-input').checked === true) {
-            document.getElementById('nav-input').checked = false;
-        }
+        };
     });
 })();
 var myClock = new Function();
@@ -625,11 +613,9 @@ element.createTable = function () {
 };
 
 element.loadTable = function () {
-    window.addEventListener('DOMContentLoaded', function () {
-        if (localStorage.getItem('table') !== null) {
-            document.getElementById('studentsTable').innerHTML = localStorage.getItem('table');
-        };
-    });
+    if (localStorage.getItem('table') !== null) {
+        document.getElementById('studentsTable').innerHTML = localStorage.getItem('table');
+    };
 };
 
 element.createDOM = function () {
@@ -646,6 +632,7 @@ FormValidation.prototype.valideToLatinSymbols = function (inputId, popupId) {
     for (var i = 0; i < element.value.length; i++) {
         if ((element.value.charCodeAt(i) < 65 || element.value.charCodeAt(i) > 90) && (element.value.charCodeAt(i) < 97 || element.value.charCodeAt(i) > 122) && element.value.charCodeAt(i) !== 45 && element.value.charCodeAt(i) !== 32) {
             document.getElementById(popupId).style.visibility = "visible";
+            break;
         } else {
             document.getElementById(popupId).style.visibility = "hidden";
         };

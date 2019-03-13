@@ -142,11 +142,9 @@ element.createTable = function () {
 };
 
 element.loadTable = function () {
-    window.addEventListener ('DOMContentLoaded', function () {
-        if (localStorage.getItem('table') !== null) {
-            document.getElementById('studentsTable').innerHTML = localStorage.getItem('table');
-        };
-    });
+    if (localStorage.getItem('table') !== null) {
+        document.getElementById('studentsTable').innerHTML = localStorage.getItem('table');
+    };
 };
 
 element.createDOM = function () {

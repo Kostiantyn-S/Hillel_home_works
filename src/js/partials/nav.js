@@ -1,19 +1,8 @@
-(function nav () {
-    document.getElementById('header').addEventListener('click', function () {
-        if (document.getElementById('nav-input').checked === true) {
+(function closeNav () {
+    document.addEventListener('click', function () {
+        if (event.target !== document.getElementById('nav-input') && event.target !== document.getElementById('nav-menu') &&
+             document.getElementById('nav-input').checked === true) {
             document.getElementById('nav-input').checked = false;
-        }
-    });
-
-    document.getElementById('footer').addEventListener('click', function () {
-        if (document.getElementById('nav-input').checked === true) {
-            document.getElementById('nav-input').checked = false;
-        }
-    });
-
-    document.getElementById('article').addEventListener('click', function () {
-        if (document.getElementById('nav-input').checked === true) {
-            document.getElementById('nav-input').checked = false;
-        }
+        };
     });
 })();

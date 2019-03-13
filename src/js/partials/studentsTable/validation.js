@@ -8,6 +8,7 @@ FormValidation.prototype.valideToLatinSymbols = function (inputId, popupId) {
          (element.value.charCodeAt(i) < 97 || element.value.charCodeAt(i) > 122) &&
          element.value.charCodeAt(i) !== 45 && element.value.charCodeAt(i) !== 32) {
             document.getElementById(popupId).style.visibility = "visible";
+            break;
         } else {
             document.getElementById(popupId).style.visibility = "hidden";
         };
