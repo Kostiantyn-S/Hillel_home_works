@@ -1,4 +1,4 @@
-#slider
+.slider
   width: 640px
   height: 360px
   background-size: cover
@@ -12,7 +12,7 @@
     height: 160px
     margin-bottom: 20px
 
-#slider-title
+.slider-title
   font-weight: bold
   font-family: sans-serif
   font-size: xx-large
@@ -22,7 +22,7 @@
     font-size: x-large
     margin-top: 20px
 
-#slider-button-left
+.slider-button-left
   width: 50px
   background-image: url("../img/slider/left.png")
   background-repeat: no-repeat
@@ -31,10 +31,10 @@
   @media (max-width: 640px)
     background-image: url("../img/slider/left_mobile.png")
 
-#slider-button-left:hover
+.slider-button-left:hover
   background-color: rgba(0,0,0,0.5)
 
-#slider-button-right
+.slider-button-right
   width: 50px
   background-image: url("../img/slider/right.png")
   background-repeat: no-repeat
@@ -43,5 +43,43 @@
   @media (max-width: 640px)
     background-image: url("../img/slider/right_mobile.png")
 
-#slider-button-right:hover
+.slider-button-right:hover
   background-color: rgba(0,0,0,0.5)
+
+.slider1
+  display: flex
+  flex-direction: column
+  justify-content: center
+  align-items: center
+  margin-top: 50px
+  margin-bottom: 40px
+
+  .slider1-indicators
+    height: 100%
+    width: 100%
+    display: flex
+    align-items: flex-end
+    justify-content: center
+
+    .slider1-slide
+      width: 20px
+      height: 20px
+      border-radius: 50%
+      background-color: chartreuse
+      border: 2px solid #000000
+      margin: 10px
+
+      @media (max-width: 640px)
+        width: 15px
+        height: 15px
+        margin: 5px
+
+    .slider1-slide:hover
+      background-color: rgba(0,0,0,0.5)
+
+  .slider1-hover
+    position: absolute
+    background: white
+    font-family: sans-serif
+    font-size: larger
+    transition: top 0.5s, left 0.5s

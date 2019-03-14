@@ -403,10 +403,117 @@ slider.turnOn = function () {
         document.getElementById('slider-button-right').addEventListener('click', function () {
             slider.scrollRight();
         });
+
+        slider1.turnOn();
     });
 };
 
 slider.turnOn();
+
+var slider1 = new Slider();
+slider1.slides = ['5.jpg', '6.jpg', '7.jpg', '8.jpg', '9.jpg'];
+
+slider1.createDOM = function () {
+    this.createElement('article', 'div', 'slider1', 'slider1', 2);
+    this.createElement('slider1', 'div', 'slider1-title', 'slider-title', 0);
+    document.getElementById('slider1-title').innerHTML = 'North Pole';
+    this.createElement('slider1', 'div', 'slider1-conteiner', 'slider', 1);
+    this.createElement('slider1-conteiner', 'div', 'slider1-button-left', 'slider-button-left');
+    this.createElement('slider1-conteiner', 'div', 'slider1-indicators', 'slider1-indicators', 2);
+    this.createElement('slider1-indicators', 'div', 'slider1-slide0', 'slider1-slide', 0);
+    this.createElement('slider1-indicators', 'div', 'slider1-slide1', 'slider1-slide', 1);
+    this.createElement('slider1-indicators', 'div', 'slider1-slide2', 'slider1-slide', 2);
+    this.createElement('slider1-indicators', 'div', 'slider1-slide3', 'slider1-slide', 3);
+    this.createElement('slider1-indicators', 'div', 'slider1-slide4', 'slider1-slide', 4);
+    this.createElement('slider1-conteiner', 'div', 'slider1-button-right', 'slider-button-right');
+    this.createElement('slider1', 'div', 'slider1-hover', 'slider1-hover', 2);
+    document.getElementById('slider1-hover').hidden = true;
+};
+
+slider1.set = function (image) {
+    document.getElementById("slider1-conteiner").style.backgroundImage = 'url(\'img/slider/' + image + '\')';
+};
+
+slider1.indicator = function () {
+    for (var i = 0; i < this.slides.length; i++) {
+        if (document.getElementById("slider1-conteiner").style.backgroundImage === 'url("img/slider/' + this.slides[i] + '")') {
+            document.getElementById('slider1-indicators').childNodes[i].style.background = 'white';
+        } else {
+            document.getElementById('slider1-indicators').childNodes[i].style.background = null;
+        };
+    };
+};
+
+slider1.timer = function () {
+    var self = this;
+    clearInterval(this.timerId);
+
+    this.timerId = setInterval(function () {
+        self.scrollRight();
+        self.indicator();
+    }, 6000);
+};
+
+slider1.turnOn = function () {
+    var self = this;
+
+    this.createDOM();
+    this.initial();
+    self.indicator();
+    this.timer();
+
+    document.getElementById('slider1-conteiner').addEventListener('mouseover', function () {
+        clearInterval(self.timerId);
+        document.getElementById('slider1-hover').hidden = false;
+        document.getElementById('slider1-hover').innerHTML = '' + document.getElementById("slider1-conteiner").style.backgroundImage;
+    });
+
+    document.getElementById('slider1-conteiner').addEventListener('mousemove', function (e) {
+        var element = document.getElementById('slider1-hover');
+        element.style.left = e.clientX + 20 + 'px';
+        element.style.top = e.clientY + 400 + 'px';
+    });
+
+    document.getElementById('slider1-conteiner').addEventListener('mouseout', function () {
+        self.timer();
+        document.getElementById('slider1-hover').hidden = true;
+    });
+
+    document.getElementById('slider1-button-left').addEventListener('click', function () {
+        self.scrollLeft();
+        self.indicator();
+    });
+
+    document.getElementById('slider1-button-right').addEventListener('click', function () {
+        self.scrollRight();
+        self.indicator();
+    });
+
+    document.getElementById('slider1-slide0').addEventListener('click', function () {
+        self.set(self.slides[0]);
+        self.indicator();
+    });
+
+    document.getElementById('slider1-slide1').addEventListener('click', function () {
+        self.set(self.slides[1]);
+        self.indicator();
+    });
+
+    document.getElementById('slider1-slide2').addEventListener('click', function () {
+        self.set(self.slides[2]);
+        self.indicator();
+    });
+
+    document.getElementById('slider1-slide3').addEventListener('click', function () {
+        self.set(self.slides[3]);
+        self.indicator();
+    });
+
+    document.getElementById('slider1-slide4').addEventListener('click', function () {
+        self.set(self.slides[4]);
+        self.indicator();
+    });
+};
 function ClearAllButtton() {}
 
 ClearAllButtton.prototype.createElement = function (parrentId, conteinerTag, conteinerId, conteinerClassName) {
