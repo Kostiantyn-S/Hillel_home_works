@@ -5,6 +5,9 @@
   margin-top: 10px
   margin-bottom: 20px
 
+  @media (max-width: 640px)
+    text-align: center
+
 .studentsForm
   display: flex
   justify-content: space-between
@@ -49,6 +52,9 @@
     justify-content: space-evenly
     margin-left: 100px
 
+    @media (max-width: 640px)
+      margin-left: auto
+
     .studentsForm-button
       text-align: center
       font-weight: bold
@@ -74,6 +80,11 @@
   border-collapse: separate
   border-spacing: 2px
   border: 2px solid red
+
+  @media (max-width: 640px)
+    border: none
+    border-spacing: 1px
+    width: 500px
 
   .head-name
     width: 200px
