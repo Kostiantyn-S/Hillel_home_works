@@ -2,6 +2,10 @@
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 (function closeNav() {
@@ -354,217 +358,221 @@ var CreateTable = function () {
         createTable.activateButton('table-button', 'result-table', 'table-rows', 'table-columns', 'popup-row', 'popup-column');
     });
 })();
-function Slider() {
-    this.slides = ['0.jpg', '1.jpg', '2.jpg', '3.jpg', '4.jpg'];
-    this.startIndex = 0;
-    this.timerId = 0;
-}
 
-Slider.prototype.createElement = function (parrentId, conteinerTag, conteinerId, conteinerClassName) {
-    var conteinerPosition = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : null;
+var Slider = function () {
+    function Slider() {
+        _classCallCheck(this, Slider);
 
-    var parrent = document.getElementById(parrentId);
-    var conteiner = document.createElement(conteinerTag);
-
-    (function () {
-        if (conteinerId !== undefined) {
-            conteiner.id = conteinerId;
-        }
-    })();
-
-    (function () {
-        if (conteinerClassName !== undefined) {
-            conteiner.className = conteinerClassName;
-        }
-    })();
-
-    parrent.insertBefore(conteiner, parrent.children[conteinerPosition]);
-};
-
-Slider.prototype.createDOM = function () {
-    this.createElement('article', 'div', 'slider-title', 'slider-title', 0);
-    document.getElementById('slider-title').innerHTML = 'Triumph Bonneville';
-    this.createElement('article', 'div', 'slider', 'slider', 1);
-    this.createElement('slider', 'div', 'slider-button-left', 'slider-button-left');
-    this.createElement('slider', 'div', 'slider-button-right', 'slider-button-right');
-};
-
-Slider.prototype.set = function (image) {
-    document.getElementById("slider").style.backgroundImage = 'url(\'img/slider/' + image + '\')';
-};
-
-Slider.prototype.initial = function () {
-    this.set(this.slides[this.startIndex]);
-};
-
-Slider.prototype.scrollRight = function () {
-    this.startIndex++;
-    if (this.startIndex === this.slides.length) {
+        this.slides = ['0.jpg', '1.jpg', '2.jpg', '3.jpg', '4.jpg'];
         this.startIndex = 0;
+        this.timerId = 0;
     }
-    this.initial(this.slides[this.startIndex]);
-};
 
-Slider.prototype.scrollLeft = function () {
-    this.startIndex--;
-    if (this.startIndex < 0) {
-        this.startIndex = this.slides.length - 1;
-    }
-    this.initial(this.slides[this.startIndex]);
-};
+    _createClass(Slider, [{
+        key: 'set',
+        value: function set(sliderConteinerId, slide) {
+            document.getElementById(sliderConteinerId).style.backgroundImage = 'url(\'img/slider/' + slide + '\')';
+        }
+    }, {
+        key: 'scrollRight',
+        value: function scrollRight(sliderConteinerId) {
+            this.startIndex++;
+            if (this.startIndex === this.slides.length) {
+                this.startIndex = 0;
+            }
+            this.set(sliderConteinerId, this.slides[this.startIndex]);
+        }
+    }, {
+        key: 'scrollLeft',
+        value: function scrollLeft(sliderConteinerId) {
+            this.startIndex--;
+            if (this.startIndex < 0) {
+                this.startIndex = this.slides.length - 1;
+            }
+            this.set(sliderConteinerId, this.slides[this.startIndex]);
+        }
+    }, {
+        key: 'timing',
+        value: function timing(sliderConteinerId) {
+            var self = this;
+            clearInterval(this.timerId);
 
-Slider.prototype.cleaning = function () {
-    if (document.getElementById('article').innerHTML !== "") {
-        clearInterval(this.timerId);
-        document.getElementById('article').innerHTML = "";
-    }
-};
+            this.timerId = setInterval(function () {
+                self.scrollRight(sliderConteinerId);
+            }, 6000);
+        }
+    }]);
 
-Slider.prototype.timer = function () {
+    return Slider;
+}();
 
-    var self = this;
-    clearInterval(this.timerId);
+(function turnOnFirstSlider() {
+    var element = new CreateElement();
+    var slider = new Slider();
 
-    this.timerId = setInterval(function () {
-        self.scrollRight();
-    }, 6000);
-};
-
-var slider = new Slider();
-
-slider.turnOn = function () {
     document.getElementById('nav_item-slider').addEventListener('click', function () {
-        slider.cleaning();
-        slider.createDOM();
-        slider.initial();
-        slider.timer();
+        (function clear() {
+            if (document.getElementById('article').innerHTML !== "") {
+                clearInterval(slider.timerId);
+                document.getElementById('article').innerHTML = "";
+            }
+        })();
 
-        document.getElementById('slider').addEventListener('mouseover', function () {
-            clearInterval(slider.timerId);
-        });
+        (function createDOM() {
+            element.create('article', 'div').id('slider-wrap').class('slider-wrap').position(2); //slider1
+            element.create('slider-wrap', 'div').id('slider-title').class('slider-title').innerHTML('Triumph Bonneville').position(0);
+            element.create('slider-wrap', 'div').id('slider').class('slider').position(1);
+            element.create('slider', 'div').id('slider-button-left').class('slider-button-left').position();
+            element.create('slider', 'div').id('slider-button-right').class('slider-button-right').position();
+        })();
 
-        document.getElementById('slider').addEventListener('mouseout', function () {
-            slider.timer();
-        });
+        (function activate() {
+            slider.set('slider', slider.slides[slider.startIndex]);
+            slider.timing('slider');
+        })();
 
-        document.getElementById('slider-button-left').addEventListener('click', function () {
-            slider.scrollLeft();
-        });
+        (function addOptions() {
+            document.getElementById('slider').addEventListener('mouseover', function () {
+                clearInterval(slider.timerId);
+            });
 
-        document.getElementById('slider-button-right').addEventListener('click', function () {
-            slider.scrollRight();
-        });
+            document.getElementById('slider').addEventListener('mouseout', function () {
+                slider.timing('slider');
+            });
 
-        slider1.turnOn();
+            document.getElementById('slider-button-left').addEventListener('click', function () {
+                slider.scrollLeft('slider');
+            });
+
+            document.getElementById('slider-button-right').addEventListener('click', function () {
+                slider.scrollRight('slider');
+            });
+        })();
+
+        turnOnSlider1();
     });
-};
+})();
 
-slider.turnOn();
+var Slider1 = function (_Slider) {
+    _inherits(Slider1, _Slider);
 
-var slider1 = new Slider();
-slider1.slides = ['5.jpg', '6.jpg', '7.jpg', '8.jpg', '9.jpg'];
+    function Slider1() {
+        _classCallCheck(this, Slider1);
 
-slider1.createDOM = function () {
-    this.createElement('article', 'div', 'slider1', 'slider1', 2);
-    this.createElement('slider1', 'div', 'slider1-title', 'slider-title', 0);
-    document.getElementById('slider1-title').innerHTML = 'North Pole';
-    this.createElement('slider1', 'div', 'slider1-conteiner', 'slider', 1);
-    this.createElement('slider1-conteiner', 'div', 'slider1-button-left', 'slider-button-left');
-    this.createElement('slider1-conteiner', 'div', 'slider1-indicators', 'slider1-indicators', 2);
-    this.createElement('slider1-indicators', 'div', 'slider1-slide0', 'slider1-slide', 0);
-    this.createElement('slider1-indicators', 'div', 'slider1-slide1', 'slider1-slide', 1);
-    this.createElement('slider1-indicators', 'div', 'slider1-slide2', 'slider1-slide', 2);
-    this.createElement('slider1-indicators', 'div', 'slider1-slide3', 'slider1-slide', 3);
-    this.createElement('slider1-indicators', 'div', 'slider1-slide4', 'slider1-slide', 4);
-    this.createElement('slider1-conteiner', 'div', 'slider1-button-right', 'slider-button-right');
-    this.createElement('slider1', 'div', 'slider1-hover', 'slider1-hover', 2);
-    document.getElementById('slider1-hover').hidden = true;
-};
+        var _this = _possibleConstructorReturn(this, (Slider1.__proto__ || Object.getPrototypeOf(Slider1)).call(this));
 
-slider1.set = function (image) {
-    document.getElementById("slider1-conteiner").style.backgroundImage = 'url(\'img/slider/' + image + '\')';
-};
+        _this.slides = ['5.jpg', '6.jpg', '7.jpg', '8.jpg', '9.jpg'];
+        return _this;
+    }
 
-slider1.indicator = function () {
-    for (var i = 0; i < this.slides.length; i++) {
-        if (document.getElementById("slider1-conteiner").style.backgroundImage === 'url("img/slider/' + this.slides[i] + '")') {
-            document.getElementById('slider1-indicators').childNodes[i].style.background = 'white';
-        } else {
-            document.getElementById('slider1-indicators').childNodes[i].style.background = null;
-        };
-    };
-};
+    _createClass(Slider1, [{
+        key: 'indicator',
+        value: function indicator(sliderConteinerId, indicatorsId, color) {
+            for (var i = 0; i < this.slides.length; i++) {
+                if (document.getElementById(sliderConteinerId).style.backgroundImage === 'url("img/slider/' + this.slides[i] + '")') {
+                    document.getElementById(indicatorsId).childNodes[i].style.background = color;
+                } else {
+                    document.getElementById(indicatorsId).childNodes[i].style.background = null;
+                }
+            }
+        }
+    }, {
+        key: 'timing',
+        value: function timing(sliderConteinerId, indicatorsId, color) {
+            var self = this;
+            clearInterval(this.timerId);
 
-slider1.timer = function () {
-    var self = this;
-    clearInterval(this.timerId);
+            this.timerId = setInterval(function () {
+                self.scrollRight(sliderConteinerId);
+                self.indicator(sliderConteinerId, indicatorsId, color);
+            }, 6000);
+        }
+    }]);
 
-    this.timerId = setInterval(function () {
-        self.scrollRight();
-        self.indicator();
-    }, 6000);
-};
+    return Slider1;
+}(Slider);
 
-slider1.turnOn = function () {
-    var self = this;
+function turnOnSlider1() {
+    var element = new CreateElement();
+    var slider = new Slider1();
 
-    this.createDOM();
-    this.initial();
-    self.indicator();
-    this.timer();
-
-    document.getElementById('slider1-conteiner').addEventListener('mouseover', function () {
-        clearInterval(self.timerId);
-        document.getElementById('slider1-hover').hidden = false;
-        document.getElementById('slider1-hover').innerHTML = '' + document.getElementById("slider1-conteiner").style.backgroundImage;
-    });
-
-    document.getElementById('slider1-conteiner').addEventListener('mousemove', function (e) {
-        var element = document.getElementById('slider1-hover');
-        element.style.left = e.clientX + 20 + 'px';
-        element.style.top = e.clientY + 400 + 'px';
-    });
-
-    document.getElementById('slider1-conteiner').addEventListener('mouseout', function () {
-        self.timer();
+    (function createDOM() {
+        element.create('article', 'div').id('slider1-wrap').class('slider-wrap').position(1);
+        element.create('slider1-wrap', 'div').id('slider1-title').class('slider-title').innerHTML('North Pole').position(0);
+        element.create('slider1-wrap', 'div').id('slider1').class('slider').position(1);
+        element.create('slider1', 'div').id('slider1-button-left').class('slider-button-left').position(0);
+        element.create('slider1', 'div').id('slider1-indicators').class('slider1-indicators').position(1);
+        element.create('slider1-indicators', 'div').id('slider1-slide0').class('slider1-slide').position(0);
+        element.create('slider1-indicators', 'div').id('slider1-slide1').class('slider1-slide').position(1);
+        element.create('slider1-indicators', 'div').id('slider1-slide2').class('slider1-slide').position(2);
+        element.create('slider1-indicators', 'div').id('slider1-slide3').class('slider1-slide').position(3);
+        element.create('slider1-indicators', 'div').id('slider1-slide4').class('slider1-slide').position(4);
+        element.create('slider1', 'div').id('slider1-button-right').class('slider-button-right').position(2);
+        element.create('slider1-wrap', 'div').id('slider1-hover').class('slider1-hover').position(2);
         document.getElementById('slider1-hover').hidden = true;
-    });
+    })();
 
-    document.getElementById('slider1-button-left').addEventListener('click', function () {
-        self.scrollLeft();
-        self.indicator();
-    });
+    (function activate() {
+        slider.set('slider1', slider.slides[slider.startIndex]);
+        slider.indicator('slider1', 'slider1-indicators', 'white');
+        slider.timing('slider1', 'slider1-indicators', 'white');
+    })();
 
-    document.getElementById('slider1-button-right').addEventListener('click', function () {
-        self.scrollRight();
-        self.indicator();
-    });
+    (function addOptions() {
 
-    document.getElementById('slider1-slide0').addEventListener('click', function () {
-        self.set(self.slides[0]);
-        self.indicator();
-    });
+        document.getElementById('slider1').addEventListener('mouseover', function () {
+            clearInterval(slider.timerId);
+            document.getElementById('slider1-hover').hidden = false;
+            document.getElementById('slider1-hover').innerHTML = '' + document.getElementById("slider1").style.backgroundImage;
+        });
 
-    document.getElementById('slider1-slide1').addEventListener('click', function () {
-        self.set(self.slides[1]);
-        self.indicator();
-    });
+        document.getElementById('slider1').addEventListener('mousemove', function (e) {
+            var element = document.getElementById('slider1-hover');
+            element.style.left = e.clientX + 20 + 'px';
+            element.style.top = e.clientY + 500 + 'px';
+        });
 
-    document.getElementById('slider1-slide2').addEventListener('click', function () {
-        self.set(self.slides[2]);
-        self.indicator();
-    });
+        document.getElementById('slider1').addEventListener('mouseout', function () {
+            slider.timing('slider1', 'slider1-indicators', 'white');
+            document.getElementById('slider1-hover').hidden = true;
+        });
 
-    document.getElementById('slider1-slide3').addEventListener('click', function () {
-        self.set(self.slides[3]);
-        self.indicator();
-    });
+        document.getElementById('slider1-button-left').addEventListener('click', function () {
+            slider.scrollLeft('slider1');
+            slider.indicator('slider1', 'slider1-indicators', 'white');
+        });
 
-    document.getElementById('slider1-slide4').addEventListener('click', function () {
-        self.set(self.slides[4]);
-        self.indicator();
-    });
-};
+        document.getElementById('slider1-button-right').addEventListener('click', function () {
+            slider.scrollRight('slider1');
+            slider.indicator('slider1', 'slider1-indicators', 'white');
+        });
+
+        document.getElementById('slider1-slide0').addEventListener('click', function () {
+            slider.set('slider1', slider.slides[0]);
+            slider.indicator('slider1', 'slider1-indicators', 'white');
+        });
+
+        document.getElementById('slider1-slide1').addEventListener('click', function () {
+            slider.set('slider1', slider.slides[1]);
+            slider.indicator('slider1', 'slider1-indicators', 'white');
+        });
+
+        document.getElementById('slider1-slide2').addEventListener('click', function () {
+            slider.set('slider1', slider.slides[2]);
+            slider.indicator('slider1', 'slider1-indicators', 'white');
+        });
+
+        document.getElementById('slider1-slide3').addEventListener('click', function () {
+            slider.set('slider1', slider.slides[3]);
+            slider.indicator('slider1', 'slider1-indicators', 'white');
+        });
+
+        document.getElementById('slider1-slide4').addEventListener('click', function () {
+            slider.set('slider1', slider.slides[4]);
+            slider.indicator('slider1', 'slider1-indicators', 'white');
+        });
+    })();
+}
 (function turnOnClearAllButtton() {
     var element = new CreateElement();
 
