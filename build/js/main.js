@@ -1,275 +1,296 @@
 'use strict';
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
 (function closeNav() {
     document.addEventListener('click', function () {
         if (event.target !== document.getElementById('nav-input') && event.target !== document.getElementById('nav-menu') && document.getElementById('nav-input').checked === true) {
             document.getElementById('nav-input').checked = false;
-        };
+        }
     });
 })();
-var myClock = new Function();
 
-myClock.creatingElement = function (parrentId, conteinerTag, conteinerId, conteinerClassName) {
-    var conteinerPosition = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : null;
+var CreateElement = function () {
+    function CreateElement() {
+        _classCallCheck(this, CreateElement);
 
-    var parrent = document.getElementById(parrentId);
-    var conteiner = document.createElement(conteinerTag);
-
-    (function () {
-        if (conteinerId !== undefined) {
-            conteiner.id = conteinerId;
-        }
-    })();
-
-    (function () {
-        if (conteinerClassName !== undefined) {
-            conteiner.className = conteinerClassName;
-        }
-    })();
-
-    parrent.insertBefore(conteiner, parrent.children[conteinerPosition]);
-};
-
-myClock.showClock = function (daysConteinerId, weeksKonteinerId, hoursConteinerId, minutesConteinerId, secondsConteinerId) {
-    showDate();
-    showHours();
-    showMinutes();
-    showSeconds();
-
-    function showDate() {
-        var clock = new Date();
-        var year = clock.getFullYear();
-        var month = clock.getMonth() + 1;
-        var weekDay = clock.getDay();
-        var weekDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-        var day = clock.getDate();
-
-        (function () {
-            month = month < 10 ? '0' + month : month;
-        })();
-
-        (function () {
-            day = day < 10 ? '0' + day : day;
-        })();
-
-        document.getElementById(daysConteinerId).innerHTML = day + '/' + month + '/' + year;
-        document.getElementById(weeksKonteinerId).innerHTML = weekDays[weekDay];
+        this.parrent;
+        this.element;
     }
 
-    function showHours() {
-        var clock = new Date();
-        var hours = clock.getHours();
-        hours = hours < 10 ? '0' + hours : hours;
-        document.getElementById(hoursConteinerId).innerHTML = hours;
-        return hours;
+    _createClass(CreateElement, [{
+        key: 'create',
+        value: function create(parrentId, elementTag) {
+            this.parrent = document.getElementById(parrentId);
+            this.element = document.createElement(elementTag);
+            return this;
+        }
+    }, {
+        key: 'id',
+        value: function id(elementId) {
+            this.element.id = elementId;
+            return this;
+        }
+    }, {
+        key: 'class',
+        value: function _class(className) {
+            this.element.className = className;
+            return this;
+        }
+    }, {
+        key: 'type',
+        value: function type(_type) {
+            this.element.type = _type;
+            return this;
+        }
+    }, {
+        key: 'value',
+        value: function value(_value) {
+            this.element.value = _value;
+            return this;
+        }
+    }, {
+        key: 'innerHTML',
+        value: function innerHTML(text) {
+            this.element.innerHTML = text;
+            return this;
+        }
+    }, {
+        key: 'position',
+        value: function position() {
+            var _position = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+
+            this.parrent.insertBefore(this.element, this.parrent.children[_position]);
+            return this;
+        }
+    }]);
+
+    return CreateElement;
+}();
+
+var Clock = function () {
+    function Clock(daysConteinerId, weeksKonteinerId, hoursConteinerId, minutesConteinerId, secondsConteinerId) {
+        _classCallCheck(this, Clock);
+
+        this.daysConteinerId = daysConteinerId;
+        this.weeksKonteinerId = weeksKonteinerId;
+        this.hoursConteinerId = hoursConteinerId;
+        this.minutesConteinerId = minutesConteinerId;
+        this.secondsConteinerId = secondsConteinerId;
     }
 
-    function showMinutes() {
-        var clock = new Date();
-        var minutes = clock.getMinutes();
-        minutes = minutes < 10 ? '0' + minutes : minutes;
-        document.getElementById(minutesConteinerId).innerHTML = ':' + minutes;
-        return minutes;
-    }
+    _createClass(Clock, [{
+        key: 'showDate',
+        value: function showDate() {
+            var date = new Date();
+            var year = date.getFullYear();
+            var month = date.getMonth() + 1;
+            var weekDay = date.getDay();
+            var weekDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            var day = date.getDate();
 
-    function showSeconds() {
-        var clock = new Date();
-        var seconds = clock.getSeconds();
-        seconds = seconds < 10 ? '0' + seconds : seconds;
-        document.getElementById(secondsConteinerId).innerHTML = ':' + seconds;
-        return seconds;
-    }
-
-    setInterval(function showAll() {
-        var seconds = showSeconds();
-        var minutes = void 0;
-        var hours = void 0;
-
-        if (seconds === '00') {
-            minutes = showMinutes();
-        }
-
-        if (minutes === '00') {
-            hours = showHours();
-        }
-
-        if (hours === '00') {
-            showDate();
-        }
-    }, 1000);
-};
-
-myClock.creatingElement('header', 'div', 'date', 'date', 0);
-myClock.creatingElement('date', 'span', 'date-week');
-myClock.creatingElement('date', 'span', 'date-day');
-myClock.creatingElement('header', 'div', 'time', 'time', 1);
-myClock.creatingElement('time', 'span', 'time-hours');
-myClock.creatingElement('time', 'span', 'time-minutes');
-myClock.creatingElement('time', 'span', 'time-seconds');
-myClock.showClock('date-day', 'date-week', 'time-hours', 'time-minutes', 'time-seconds');
-var windowSize = new Function();
-
-windowSize.creatingElement = function (parrentId, conteinerTag, conteinerId, conteinerClassName) {
-    var conteinerPosition = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : null;
-
-    var parrent = document.getElementById(parrentId);
-    var conteiner = document.createElement(conteinerTag);
-
-    (function () {
-        if (conteinerId !== undefined) {
-            conteiner.id = conteinerId;
-        }
-    })();
-
-    (function () {
-        if (conteinerClassName !== undefined) {
-            conteiner.className = conteinerClassName;
-        }
-    })();
-
-    parrent.insertBefore(conteiner, parrent.children[conteinerPosition]);
-};
-
-windowSize.showSize = function (conteinerId) {
-    var width = document.documentElement.clientWidth;
-    var height = document.documentElement.clientHeight;
-    document.getElementById(conteinerId).innerHTML = width + ' x ' + height;
-};
-
-windowSize.creatingElement('footer', 'div', 'window-size', 'window-size');
-windowSize.showSize('window-size');
-window.addEventListener('resize', function () {
-    setTimeout(windowSize.showSize, 2000, 'window-size');
-});
-var spentTime = new Function();
-
-spentTime.creatingElement = function (parrentId, conteinerTag, conteinerId, conteinerClassName) {
-    var conteinerPosition = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : null;
-
-    var parrent = document.getElementById(parrentId);
-    var conteiner = document.createElement(conteinerTag);
-
-    (function () {
-        if (conteinerId !== undefined) {
-            conteiner.id = conteinerId;
-        }
-    })();
-
-    (function () {
-        if (conteinerClassName !== undefined) {
-            conteiner.className = conteinerClassName;
-        }
-    })();
-
-    parrent.insertBefore(conteiner, parrent.children[conteinerPosition]);
-};
-
-spentTime.showStopWatch = function (conteinerId) {
-    var value = 0;
-    var intervalId = void 0;
-
-    function stopWatch() {
-        intervalId = setInterval(function () {
-            ++value;
-            value = value < 10 ? '0' + value : value;
-            document.getElementById(conteinerId).innerHTML = value;
-        }, 1000);
-    }
-
-    stopWatch();
-
-    (function addRefreshAtEscKey() {
-        window.addEventListener('keydown', function () {
-            if (event.keyCode === 27) {
-                clearInterval(intervalId);
-                spentTime.showStopWatch('spentTime_value', 0);
-            }
-        });
-    })();
-
-    (function stopTheStopwatchWhenHoveringAndViceVersa() {
-        document.getElementById('spentTime').addEventListener('mouseover', function () {
-            clearInterval(intervalId);
-        });
-
-        document.getElementById('spentTime').addEventListener('mouseout', stopWatch);
-    })();
-};
-
-spentTime.creatingElement('footer', 'div', 'spentTime', 'spentTime', 0);
-spentTime.creatingElement('spentTime', 'div', 'spentTime_title', 'spentTime_title', 0);
-document.getElementById('spentTime_title').innerHTML = 'You spent in this page:';
-spentTime.creatingElement('spentTime', 'div', 'spentTime_value-and-text', 'spentTime_value-and-text', 1);
-spentTime.creatingElement('spentTime_value-and-text', 'div', 'spentTime_value', 'spentTime_value', 0);
-spentTime.creatingElement('spentTime_value-and-text', 'div', 'spentTime_text', 'spentTime_text', 1);
-document.getElementById('spentTime_text').innerHTML = 'seconds';
-
-spentTime.showStopWatch('spentTime_value');
-var createTable = new Function();
-
-createTable.creatingElement = function (parrentId, conteinerTag, conteinerId, conteinerClassName) {
-    var conteinerPosition = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : null;
-
-    var parrent = document.getElementById(parrentId);
-    var conteiner = document.createElement(conteinerTag);
-
-    (function () {
-        if (conteinerId !== undefined) {
-            conteiner.id = conteinerId;
-        }
-    })();
-
-    (function () {
-        if (conteinerClassName !== undefined) {
-            conteiner.className = conteinerClassName;
-        }
-    })();
-
-    parrent.insertBefore(conteiner, parrent.children[conteinerPosition]);
-};
-
-createTable.validatingInput = function (inputElementId, popupId) {
-    document.getElementById(inputElementId).addEventListener('input', function () {
-        var value = parseInt(document.getElementById(inputElementId).value);
-        if (value > 100 || value < 1) {
-            document.getElementById(popupId).hidden = false;
-        } else {
-            document.getElementById(popupId).hidden = true;
-        }
-    });
-};
-
-createTable.createForm = function () {
-    createTable.creatingElement('article', 'form', 'create-table', 'create-table', 0);
-
-    createTable.creatingElement('create-table', 'div', 'table-rows-conteiner', 'table-rows-conteiner', 0);
-    document.getElementById('table-rows-conteiner').innerHTML = '<label for="table-rows">How much rows in table you want to create?</label><input id="table-rows" name="table-rows" type="number" placeholder="28" required><span id="popup-row" class="popup-row" hidden>Value must be integer more than 0 but less than 100</span>';
-
-    createTable.creatingElement('create-table', 'div', 'table-columns-conteiner', 'table-columns-conteiner', 1);
-    document.getElementById('table-columns-conteiner').innerHTML = '<label for="table-columns">How much rows in table you want to create?</label><input id="table-columns" name="table-columns" type="number" placeholder="35" required><span id="popup-column" class="popup-column" hidden>Value must be integer more than 0 but less than 100</span>';
-
-    createTable.creatingElement('create-table', 'div', 'table-button-conteiner', 'table-button-conteiner', 2);
-    document.getElementById('table-button-conteiner').innerHTML = '<input type="button" value="Create" id="table-button" class="table-button"></input>';
-};
-
-createTable.showResultTable = function (buttonId, inputRowsId, rowsPopupId, inputColumnsId, columnsPopupId) {
-    document.getElementById(buttonId).addEventListener('click', function () {
-
-        if (document.getElementById(rowsPopupId).hidden !== false && document.getElementById(columnsPopupId).hidden !== false && document.getElementById(inputRowsId).value !== false && document.getElementById(inputColumnsId).value !== false) {
-
-            (function isOldResult() {
-                if (document.getElementById('result-table') !== null) {
-                    document.getElementById('result-table').remove();
-                }
+            (function () {
+                month = month < 10 ? '0' + month : month;
             })();
 
+            (function () {
+                day = day < 10 ? '0' + day : day;
+            })();
+
+            document.getElementById(this.daysConteinerId).innerHTML = day + '/' + month + '/' + year;
+            document.getElementById(this.weeksKonteinerId).innerHTML = weekDays[weekDay];
+        }
+    }, {
+        key: 'showHours',
+        value: function showHours() {
+            var clock = new Date();
+            var hours = clock.getHours();
+            hours = hours < 10 ? '0' + hours : hours;
+            document.getElementById(this.hoursConteinerId).innerHTML = hours;
+            return hours;
+        }
+    }, {
+        key: 'showMinutes',
+        value: function showMinutes() {
+            var clock = new Date();
+            var minutes = clock.getMinutes();
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            document.getElementById(this.minutesConteinerId).innerHTML = ':' + minutes;
+            return minutes;
+        }
+    }, {
+        key: 'showSeconds',
+        value: function showSeconds() {
+            var clock = new Date();
+            var seconds = clock.getSeconds();
+            seconds = seconds < 10 ? '0' + seconds : seconds;
+            document.getElementById(this.secondsConteinerId).innerHTML = ':' + seconds;
+            return seconds;
+        }
+    }, {
+        key: 'change',
+        value: function change() {
+            var seconds = this.showSeconds();
+            var minutes = void 0;
+            var hours = void 0;
+
+            if (seconds === '00') {
+                minutes = this.showMinutes();
+            }
+
+            if (minutes === '00') {
+                hours = this.showHours();
+            }
+
+            if (hours === '00') {
+                this.showDate();
+            }
+        }
+    }]);
+
+    return Clock;
+}();
+
+(function turnOnClock() {
+    var element = new CreateElement();
+
+    element.create('header', 'div').id('date').class('date').position(0);
+    element.create('date', 'span').id('date-week').position();
+    element.create('date', 'span').id('date-day').position();
+    element.create('header', 'div').id('time').class('time').position(1);
+    element.create('time', 'span').id('time-hours').position();
+    element.create('time', 'span').id('time-minutes').position();
+    element.create('time', 'span').id('time-seconds').position();
+
+    var myClock = new Clock('date-day', 'date-week', 'time-hours', 'time-minutes', 'time-seconds');
+
+    myClock.showDate();
+    myClock.showHours();
+    myClock.showMinutes();
+    myClock.showSeconds();
+    setInterval(myClock.change.bind(myClock), 1000);
+})();
+
+var WindowSize = function () {
+    function WindowSize() {
+        _classCallCheck(this, WindowSize);
+    }
+
+    _createClass(WindowSize, [{
+        key: 'showSize',
+        value: function showSize(conteinerId) {
+            var width = document.documentElement.clientWidth;
+            var height = document.documentElement.clientHeight;
+            document.getElementById(conteinerId).innerHTML = width + ' x ' + height;
+        }
+    }]);
+
+    return WindowSize;
+}();
+
+(function turnOnWindowSize() {
+    var element = new CreateElement();
+    element.create('footer', 'div').id('window-size').class('window-size').position();
+
+    var windowSize = new WindowSize();
+    windowSize.showSize('window-size');
+    window.addEventListener('resize', function () {
+        setTimeout(windowSize.showSize, 2000, 'window-size');
+    });
+})();
+
+var SpentTime = function () {
+    function SpentTime(conteinerId) {
+        _classCallCheck(this, SpentTime);
+
+        this.value = 0;
+        this.intervalId;
+        this.conteinerId = conteinerId;
+    }
+
+    _createClass(SpentTime, [{
+        key: 'stopWatch',
+        value: function stopWatch() {
+            var self = this;
+            this.intervalId = setInterval(function () {
+                ++self.value;
+                self.value = self.value < 10 ? '0' + self.value : self.value;
+                document.getElementById(self.conteinerId).innerHTML = self.value;
+            }, 1000);
+        }
+    }, {
+        key: 'addRefreshAtEscKey',
+        value: function addRefreshAtEscKey() {
+            var self = this;
+            window.addEventListener('keydown', function () {
+                if (event.keyCode === 27) {
+                    clearInterval(self.intervalId);
+                    self.value = 0;
+                    self.stopWatch();
+                }
+            });
+        }
+    }, {
+        key: 'stopTheStopwatchWhenHoveringAndViceVersa',
+        value: function stopTheStopwatchWhenHoveringAndViceVersa(conteinerId) {
+            var self = this;
+            document.getElementById(conteinerId).addEventListener('mouseover', function () {
+                clearInterval(self.intervalId);
+            });
+
+            document.getElementById(conteinerId).addEventListener('mouseout', this.stopWatch.bind(self));
+        }
+    }]);
+
+    return SpentTime;
+}();
+
+(function turnOnSpentTimeStopWatch() {
+    var element = new CreateElement();
+    var stopWatch = new SpentTime('spentTime_value');
+
+    element.create('footer', 'div').id('spentTime').class('spentTime').position(0);
+    element.create('spentTime', 'div').id('spentTime_title').class('spentTime_title').innerHTML('You spent in this page:').position(0);
+    element.create('spentTime', 'div').id('spentTime_value-and-text').class('spentTime_value-and-text').position(1);
+    element.create('spentTime_value-and-text', 'div').id('spentTime_value').class('spentTime_value').position(0);
+    element.create('spentTime_value-and-text', 'div').id('spentTime_text').class('spentTime_text').innerHTML('seconds').position(1);
+
+    stopWatch.stopWatch();
+    stopWatch.addRefreshAtEscKey();
+    stopWatch.stopTheStopwatchWhenHoveringAndViceVersa('spentTime');
+})();
+
+var CreateTable = function () {
+    function CreateTable() {
+        _classCallCheck(this, CreateTable);
+    }
+
+    _createClass(CreateTable, [{
+        key: 'validatingInput',
+        value: function validatingInput(inputElementId, popupId) {
+            document.getElementById(inputElementId).addEventListener('input', function () {
+                var value = parseInt(document.getElementById(inputElementId).value);
+                document.getElementById(popupId).hidden = !(value > 100 || value < 1);
+            });
+        }
+    }, {
+        key: 'clearOldResult',
+        value: function clearOldResult(resultTableId) {
+            if (document.getElementById(resultTableId).innerHTML !== false) {
+                document.getElementById(resultTableId).innerHTML = '';
+            }
+        }
+    }, {
+        key: 'renderTable',
+        value: function renderTable(inputRowsId, inputColumnsId, resultTableId) {
             var rowsValue = parseInt(document.getElementById(inputRowsId).value);
             var columnsValue = parseInt(document.getElementById(inputColumnsId).value);
             var table = void 0;
             var row = void 0;
 
-            createTable.creatingElement('article', 'table', 'result-table', 'result-table', 1);
-            table = document.getElementById('result-table');
+            table = document.getElementById(resultTableId);
 
             for (var i = 0; i < rowsValue; i++) {
                 row = table.insertRow();
@@ -278,31 +299,61 @@ createTable.showResultTable = function (buttonId, inputRowsId, rowsPopupId, inpu
                     row.insertCell();
                 }
             }
-            createTable.showIndex();
         }
+    }, {
+        key: 'showIndex',
+        value: function showIndex(resultTableId) {
+            document.getElementById(resultTableId).addEventListener('click', function () {
+                alert('\u0421\u0442\u0440\u043E\u043A\u0430 ' + (event.target.parentNode.rowIndex + 1) + ' \u041A\u043E\u043B\u043E\u043D\u043A\u0430 ' + (event.target.cellIndex + 1));
+            });
+        }
+    }, {
+        key: 'activateButton',
+        value: function activateButton(buttonId, resultTableId, inputRowsId, inputColumnsId, rowsPopupId, columnsPopupId) {
+            var self = this;
+
+            document.getElementById(buttonId).addEventListener('click', function () {
+                if (document.getElementById(rowsPopupId).hidden !== false && document.getElementById(columnsPopupId).hidden !== false && document.getElementById(inputRowsId).value !== false && document.getElementById(inputColumnsId).value !== false) {
+                    self.clearOldResult(resultTableId);
+                    self.renderTable(inputRowsId, inputColumnsId, resultTableId);
+                    self.showIndex(resultTableId);
+                }
+            });
+        }
+    }]);
+
+    return CreateTable;
+}();
+
+(function turnOnCreateTable() {
+    var element = new CreateElement();
+    var createTable = new CreateTable();
+
+    document.getElementById('nav_item-createTable').addEventListener('click', function () {
+
+        (function clear() {
+            if (document.getElementById('article').innerHTML !== "") {
+                clearInterval(slider.timerId);
+                document.getElementById('article').innerHTML = "";
+            }
+        })();
+
+        (function createDOM() {
+            element.create('article', 'form').id('create-table').class('create-table').position(0);
+            element.create('create-table', 'div').id('table-rows-conteiner').class('table-rows-conteiner').innerHTML('<label for="table-rows">How much rows in table you want to create?</label><input id="table-rows" name="table-rows" type="number" placeholder="28" required><span id="popup-row" class="popup-row" hidden>Value must be integer more than 0 but less than 100</span>').position(0);
+            element.create('create-table', 'div').id('table-columns-conteiner').class('table-columns-conteiner').innerHTML('<label for="table-columns">How much rows in table you want to create?</label><input id="table-columns" name="table-columns" type="number" placeholder="35" required><span id="popup-column" class="popup-column" hidden>Value must be integer more than 0 but less than 100</span>').position(1);
+            element.create('create-table', 'div').id('table-button-conteiner').class('table-button-conteiner').innerHTML('<input type="button" value="Create" id="table-button" class="table-button"></input>').position(2);
+            element.create('article', 'table').id('result-table').class('result-table').position(1);
+        })();
+
+        (function validationInputs() {
+            createTable.validatingInput('table-rows', 'popup-row');
+            createTable.validatingInput('table-columns', 'popup-column');
+        })();
+
+        createTable.activateButton('table-button', 'result-table', 'table-rows', 'table-columns', 'popup-row', 'popup-column');
     });
-};
-
-createTable.showIndex = function () {
-    document.getElementById('result-table').addEventListener('click', function () {
-        alert('\u0421\u0442\u0440\u043E\u043A\u0430 ' + (event.target.parentNode.rowIndex + 1) + ' \u041A\u043E\u043B\u043E\u043D\u043A\u0430 ' + (event.target.cellIndex + 1));
-    });
-};
-
-createTable.turnOnFunction = function () {
-
-    if (document.getElementById('article').innerHTML !== "") {
-        clearInterval(slider.timerId);
-        document.getElementById('article').innerHTML = "";
-    }
-
-    createTable.createForm();
-    createTable.validatingInput('table-rows', 'popup-row');
-    createTable.validatingInput('table-columns', 'popup-column');
-    createTable.showResultTable('table-button', 'table-rows', 'popup-row', 'table-columns', 'popup-column');
-};
-
-document.getElementById('nav_item-createTable').addEventListener('click', createTable.turnOnFunction);
+})();
 function Slider() {
     this.slides = ['0.jpg', '1.jpg', '2.jpg', '3.jpg', '4.jpg'];
     this.startIndex = 0;
@@ -514,89 +565,61 @@ slider1.turnOn = function () {
         self.indicator();
     });
 };
-function ClearAllButtton() {}
+(function turnOnClearAllButtton() {
+    var element = new CreateElement();
 
-ClearAllButtton.prototype.createElement = function (parrentId, conteinerTag, conteinerId, conteinerClassName) {
-    var conteinerPosition = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : null;
-
-    var parrent = document.getElementById(parrentId);
-    var conteiner = document.createElement(conteinerTag);
-
-    (function () {
-        if (conteinerId !== undefined) {
-            conteiner.id = conteinerId;
-        }
-    })();
-
-    (function () {
-        if (conteinerClassName !== undefined) {
-            conteiner.className = conteinerClassName;
-        }
-    })();
-
-    parrent.insertBefore(conteiner, parrent.children[conteinerPosition]);
-};
-
-var clearAll = new ClearAllButtton();
-
-clearAll.turnOn = function () {
-    clearAll.createElement('header', 'a', 'clearAll', 'clearAll', 0);
-    document.getElementById('clearAll').innerHTML = 'Clear All';
+    element.create('header', 'a').id('clearAll').class('clearAll').innerHTML('Clear All').position(0);
     document.getElementById('clearAll').addEventListener('click', function () {
         clearInterval(slider.timerId);
         document.getElementById('article').innerHTML = '';
     });
-};
+})();
 
-clearAll.turnOn();
-
-function Button() {};
-
-Button.prototype.createElement = function (parrentId, elementTag, elementId, elementClassName, elementValue, elementType, elementBackground) {
-    var elementPosition = arguments.length > 7 && arguments[7] !== undefined ? arguments[7] : null;
-
-    var element = document.createElement(elementTag);
-
-    element.id = elementId;
-    element.className = elementClassName;
-    element.value = elementValue;
-    element.type = elementType;
-    element.background = elementBackground;
-    document.getElementById(parrentId).insertBefore(element, document.getElementById(parrentId).children[elementPosition]);
-};
-
-Button.prototype.clickMe = function (event) {
-    if (event.target.style.background !== event.target.background) {
-        event.target.style.background = event.target.background;
-    } else {
-        event.target.style.background = 'grey';
+var SuperButtons = function () {
+    function SuperButtons() {
+        _classCallCheck(this, SuperButtons);
     }
-};
 
-Button.prototype.cleaning = function () {
-    if (document.getElementById('article').innerHTML !== "") {
-        clearInterval(this.timerId);
-        document.getElementById('article').innerHTML = "";
-    }
-};
+    _createClass(SuperButtons, [{
+        key: 'clickMe',
+        value: function clickMe(event) {
+            if (event.target.style.background !== event.target.background) {
+                event.target.style.background = event.target.background;
+            } else {
+                event.target.style.background = 'grey';
+            }
+        }
+    }, {
+        key: 'clear',
+        value: function clear(conteinerId) {
+            if (document.getElementById(conteinerId).innerHTML !== "") {
+                clearInterval(slider.timerId);
+                document.getElementById(conteinerId).innerHTML = "";
+            }
+        }
+    }]);
 
-var button = new Button();
+    return SuperButtons;
+}();
 
-button.createDom = function () {
-    button.createElement('article', 'input', 'firstButton', 'superButton', 'First Button', 'button', 'red', 0);
-    button.createElement('article', 'input', 'secondButton', 'superButton', 'Second Button', 'button', 'green', 1);
-    button.createElement('article', 'input', 'thirdButton', 'superButton', 'Third Button', 'button', 'blue', 2);
-};
+(function turnOnSuperButtons() {
+    document.getElementById('nav_item-superButtons').addEventListener('click', function () {
+        var buttons = new SuperButtons();
+        var element = new CreateElement();
 
-button.turnOn = function () {
-    button.cleaning();
-    button.createDom();
-    document.getElementById('firstButton').addEventListener("click", button.clickMe);
-    document.getElementById('secondButton').addEventListener("click", button.clickMe);
-    document.getElementById('thirdButton').addEventListener("click", button.clickMe);
-};
+        buttons.clear('article');
+        element.create('article', 'input').id('firstButton').class('superButton').value('First Button').type('button').position(0);
+        document.getElementById('firstButton').background = 'red';
+        element.create('article', 'input').id('secondButton').class('superButton').value('Second Button').type('button').position(1);
+        document.getElementById('secondButton').background = 'green';
+        element.create('article', 'input').id('thirdButton').class('superButton').value('Third Button').type('button').position(2);
+        document.getElementById('thirdButton').background = 'blue';
 
-document.getElementById('nav_item-superButtons').addEventListener('click', button.turnOn);
+        document.getElementById('firstButton').addEventListener("click", buttons.clickMe);
+        document.getElementById('secondButton').addEventListener("click", buttons.clickMe);
+        document.getElementById('thirdButton').addEventListener("click", buttons.clickMe);
+    });
+})();
 function CreateElement() {
     this.parrent;
     this.element;

@@ -1,45 +1,35 @@
-function Button () {};
+class SuperButtons {
+    clickMe (event) {
+        if (event.target.style.background !== event.target.background ) {
+            event.target.style.background = event.target.background;
+        } else {
+            event.target.style.background = 'grey';
+        }
+    };
 
-Button.prototype.createElement = function (parrentId, elementTag, elementId, elementClassName, elementValue, elementType, elementBackground, elementPosition = null) {
-    let element = document.createElement(elementTag);
+    clear (conteinerId) {
+        if (document.getElementById(conteinerId).innerHTML !== "") {
+            clearInterval(slider.timerId);
+            document.getElementById(conteinerId).innerHTML = "";
+        }
+    };
+}
 
-    element.id = elementId;
-    element.className = elementClassName;
-    element.value = elementValue;
-    element.type = elementType;
-    element.background = elementBackground;
-    document.getElementById(parrentId).insertBefore (element, document.getElementById(parrentId).children[elementPosition]);
-};
+(function turnOnSuperButtons () {
+    document.getElementById('nav_item-superButtons').addEventListener('click', function () {
+        let buttons = new SuperButtons;
+        let element = new CreateElement;
 
-Button.prototype.clickMe = function (event) {
-    if (event.target.style.background !== event.target.background ) {
-        event.target.style.background = event.target.background;
-    } else {
-        event.target.style.background = 'grey';
-    }
-};
+        buttons.clear('article');
+        element.create('article', 'input').id('firstButton').class('superButton').value('First Button').type('button').position(0);
+        document.getElementById('firstButton').background = 'red';
+        element.create('article', 'input').id('secondButton').class('superButton').value('Second Button').type('button').position(1);
+        document.getElementById('secondButton').background = 'green';
+        element.create('article', 'input').id('thirdButton').class('superButton').value('Third Button').type('button').position(2);
+        document.getElementById('thirdButton').background = 'blue';
 
-Button.prototype.cleaning = function () {
-    if (document.getElementById('article').innerHTML !== "") {
-        clearInterval(this.timerId);
-        document.getElementById('article').innerHTML = "";
-    }
-};
-
-let button = new Button;
-
-button.createDom = function () {
-    button.createElement ('article', 'input', 'firstButton', 'superButton', 'First Button', 'button', 'red', 0);
-    button.createElement ('article', 'input', 'secondButton', 'superButton', 'Second Button', 'button', 'green', 1);
-    button.createElement ('article', 'input', 'thirdButton', 'superButton', 'Third Button', 'button', 'blue', 2);
-};
-
-button.turnOn = function () {
-    button.cleaning();
-    button.createDom();
-    document.getElementById('firstButton').addEventListener("click", button.clickMe);
-    document.getElementById('secondButton').addEventListener("click", button.clickMe);
-    document.getElementById('thirdButton').addEventListener("click", button.clickMe);
-};
-
-document.getElementById('nav_item-superButtons').addEventListener('click', button.turnOn);
+        document.getElementById('firstButton').addEventListener("click", buttons.clickMe);
+        document.getElementById('secondButton').addEventListener("click", buttons.clickMe);
+        document.getElementById('thirdButton').addEventListener("click", buttons.clickMe);
+    });
+})();
