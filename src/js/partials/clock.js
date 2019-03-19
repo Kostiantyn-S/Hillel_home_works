@@ -36,6 +36,26 @@ class CreateElement {
         return this;
     };
 
+    for (htmlFor) {
+        this.element.htmlFor = htmlFor;
+        return this;
+    };
+
+    required (value) {
+        this.element.required = value;
+        return this;
+    };
+
+    placeholder (text) {
+        this.element.placeholder = text;
+        return this;
+    };
+
+    hidden (value) {
+        this.element.hidden = value;
+        return this;
+    }
+
     position (position = null) {
         this.parrent.insertBefore (this.element, this.parrent.children[position]);
         return this;

@@ -66,9 +66,16 @@ class CreateTable {
 
         (function createDOM () {
             element.create('article', 'form').id('create-table').class('create-table').position(0);
-            element.create('create-table', 'div').id('table-rows-conteiner').class('table-rows-conteiner').innerHTML('<label for="table-rows">How much rows in table you want to create?</label><input id="table-rows" name="table-rows" type="number" placeholder="28" required><span id="popup-row" class="popup-row" hidden>Value must be integer more than 0 but less than 100</span>').position(0);
-            element.create('create-table', 'div').id('table-columns-conteiner').class('table-columns-conteiner').innerHTML('<label for="table-columns">How much rows in table you want to create?</label><input id="table-columns" name="table-columns" type="number" placeholder="35" required><span id="popup-column" class="popup-column" hidden>Value must be integer more than 0 but less than 100</span>').position(1);
-            element.create('create-table', 'div').id('table-button-conteiner').class('table-button-conteiner').innerHTML('<input type="button" value="Create" id="table-button" class="table-button"></input>').position(2);
+            element.create('create-table', 'div').id('table-rows-conteiner').class('table-rows-conteiner').position(0);
+            element.create('table-rows-conteiner', 'label').for('table-rows').innerHTML('How much rows in table you want to create?').position(0);
+            element.create('table-rows-conteiner', 'input').id('table-rows').type('number').placeholder('28').required(true).position(1);
+            element.create('table-rows-conteiner', 'span').id('popup-row').class('popup-row').hidden(true).innerHTML('Value must be integer more than 0 but less than 100').position(2);
+            element.create('create-table', 'div').id('table-columns-conteiner').class('table-columns-conteiner').position(1);
+            element.create('table-columns-conteiner', 'label').for('table-columns').innerHTML('How much columns in table you want to create?').position(0);
+            element.create('table-columns-conteiner', 'input').id('table-columns').type('number').placeholder('35').required(true).position(1);
+            element.create('table-columns-conteiner', 'span').id('popup-column').class('popup-column').hidden(true).innerHTML('Value must be integer more than 0 but less than 100').position(2);
+            element.create('create-table', 'div').id('table-button-conteiner').class('table-button-conteiner').position(2);
+            element.create('table-button-conteiner', 'input').type('button').value('Create').id('table-button').class('table-button').position();
             element.create('article', 'table').id('result-table').class('result-table').position(1);
         })();
 
