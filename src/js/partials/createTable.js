@@ -59,6 +59,7 @@ class CreateTable {
         (function clear () {
             if (document.getElementById('article').innerHTML !== "") {
                 clearInterval(slider.timerId);
+                clearInterval(slider1.timerId);
                 document.getElementById('article').innerHTML = "";
             }
         })();

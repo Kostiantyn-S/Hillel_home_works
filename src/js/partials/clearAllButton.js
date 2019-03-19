@@ -4,6 +4,7 @@
     element.create('header', 'a').id('clearAll').class('clearAll').innerHTML('Clear All').position(0);
     document.getElementById('clearAll').addEventListener('click', function () {
         clearInterval(slider.timerId);
+        clearInterval(slider1.timerId);
         document.getElementById('article').innerHTML = '';
     });
 })();

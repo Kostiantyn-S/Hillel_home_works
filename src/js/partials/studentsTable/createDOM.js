@@ -59,8 +59,9 @@ element.placeholder = function (text) {
 element.cleaning = function () {
     if (document.getElementById('article').innerHTML !== "") {
         clearInterval(slider.timerId);
+        clearInterval(slider1.timerId);
         document.getElementById('article').innerHTML = "";
-    };
+    }
 };
 
 element.createForm = function () {

@@ -10,6 +10,7 @@ class SuperButtons {
     clear (conteinerId) {
         if (document.getElementById(conteinerId).innerHTML !== "") {
             clearInterval(slider.timerId);
+            clearInterval(slider1.timerId);
             document.getElementById(conteinerId).innerHTML = "";
         }
     };
