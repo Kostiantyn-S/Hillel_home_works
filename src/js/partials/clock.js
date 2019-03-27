@@ -54,7 +54,17 @@ class CreateElement {
     hidden (value) {
         this.element.hidden = value;
         return this;
-    }
+    };
+
+    src (value) {
+        this.element.src = value;
+        return this;
+    };
+
+    alt (text) {
+        this.element.alt = text;
+        return this;
+    };
 
     position (position = null) {
         this.parrent.insertBefore (this.element, this.parrent.children[position]);

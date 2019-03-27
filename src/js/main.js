@@ -4,7 +4,6 @@
 //=require partials/spentTime.js
 //=require partials/createTable.js
 //=require partials/slider.js
-//=require partials/clearAllButton.js
 //=require partials/superButtons.js
 //=require partials/studentsTable/createDOM.js
 //=require partials/studentsTable/validation.js

@@ -30,17 +30,19 @@
   input:checked ~ .menu
     transform: scale(1.0, 1.0)
 
-#nav_menu-toggle:hover
-  background: #cccccc
-
 .menu
   position: fixed
+  display: flex
+  flex-direction: column
+  align-items: center
   width: 300px
-  height: 100vh
+  height: 80vh
   top: 10vh
   padding: 50px 0
   left: 0
-  background: #ededed
+  background: #fbffbf
+  border-radius: 20px
+  border: 1px solid #000000
   transform: translate(-100%, 0)
   transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0)
   z-index: 1
@@ -56,9 +58,9 @@
     align-items: center
 
   .nav_item
-    border: 2px solid red
+    border-bottom: 1px solid #000000
     border-radius: 20px
-    width: 100%
+    width: 80%
     margin-bottom: 20px
     font-weight: bold
     font-family: sans-serif
@@ -67,6 +69,7 @@
 
     @media (max-width: 640px)
       background: #ffffff
+      margin-bottom: 5px
 
   .nav_item:hover
     background: #ffffff

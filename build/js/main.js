@@ -86,6 +86,18 @@ var CreateElement = function () {
             return this;
         }
     }, {
+        key: 'src',
+        value: function src(value) {
+            this.element.src = value;
+            return this;
+        }
+    }, {
+        key: 'alt',
+        value: function alt(text) {
+            this.element.alt = text;
+            return this;
+        }
+    }, {
         key: 'position',
         value: function position() {
             var _position = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
@@ -395,42 +407,32 @@ var Slider = function () {
     function Slider() {
         _classCallCheck(this, Slider);
 
-        this.slides = ['0.jpg', '1.jpg', '2.jpg', '3.jpg', '4.jpg'];
-        this.startIndex = 0;
+        this.index = 0;
         this.timerId = 0;
+        this.width;
     }
 
     _createClass(Slider, [{
-        key: 'set',
-        value: function set(sliderConteinerId, slide) {
-            document.getElementById(sliderConteinerId).style.backgroundImage = 'url(\'img/slider/' + slide + '\')';
-        }
-    }, {
         key: 'scrollRight',
-        value: function scrollRight(sliderConteinerId) {
-            this.startIndex++;
-            if (this.startIndex === this.slides.length) {
-                this.startIndex = 0;
+        value: function scrollRight(sliderSelector) {
+            if (this.index >= document.querySelector(sliderSelector).childNodes.length - 1) {
+                this.index = -1;
             }
-            this.set(sliderConteinerId, this.slides[this.startIndex]);
+
+            document.querySelector(sliderSelector).style.transition = 'transform 1.5s ease-in-out';
+            this.index++;
+            document.querySelector(sliderSelector).style.transform = 'translateX(' + -this.index * this.width + 'px)';
         }
     }, {
         key: 'scrollLeft',
-        value: function scrollLeft(sliderConteinerId) {
-            this.startIndex--;
-            if (this.startIndex < 0) {
-                this.startIndex = this.slides.length - 1;
+        value: function scrollLeft(sliderSelector) {
+            if (this.index <= 0) {
+                this.index = 5;
             }
-            this.set(sliderConteinerId, this.slides[this.startIndex]);
-        }
-    }, {
-        key: 'timing',
-        value: function timing(sliderConteinerId) {
-            var self = this;
 
-            this.timerId = setInterval(function () {
-                self.scrollRight(sliderConteinerId);
-            }, 6000);
+            document.querySelector(sliderSelector).style.transition = 'transform 1.5s ease-in-out';
+            this.index--;
+            document.querySelector(sliderSelector).style.transform = 'translateX(' + -this.index * this.width + 'px)';
         }
     }]);
 
@@ -449,33 +451,45 @@ var slider = new Slider();
         })();
 
         (function createDOM() {
-            element.create('article', 'div').id('slider-wrap').class('slider-wrap').position(2); //slider1
-            element.create('slider-wrap', 'div').id('slider-title').class('slider-title').innerHTML('Triumph Bonneville').position(0);
-            element.create('slider-wrap', 'div').id('slider').class('slider').position(1);
-            element.create('slider', 'div').id('slider-button-left').class('slider-button-left').position();
-            element.create('slider', 'div').id('slider-button-right').class('slider-button-right').position();
+            element.create('article', 'div').id('slider-conteiner').class('slider-conteiner').position(0);
+            element.create('slider-conteiner', 'div').id('slider-title').class('slider-title').innerHTML('Triumph Bonneville').position(0);
+            element.create('slider-conteiner', 'div').id('slider-wrap').class('slider-wrap').position(1);
+            element.create('slider-wrap', 'div').id('slider').class('slider').position(0);
+            element.create('slider', 'img').class('slider-slide').src('img/slider/0.jpg').alt('First slide').position(1);
+            element.create('slider', 'img').class('slider-slide').src('img/slider/1.jpg').alt('Second slide').position(2);
+            element.create('slider', 'img').class('slider-slide').src('img/slider/2.jpg').alt('Third slide').position(3);
+            element.create('slider', 'img').class('slider-slide').src('img/slider/3.jpg').alt('Fourth slide').position(4);
+            element.create('slider', 'img').class('slider-slide').src('img/slider/4.jpg').alt('Fifth slide').position(5);
+            element.create('slider-wrap', 'div').id('slider-buttons').class('slider-buttons').position(1);
+            element.create('slider-buttons', 'div').id('slider-button-left').class('slider-button-left').position(0);
+            element.create('slider-buttons', 'div').id('slider-button-right').class('slider-button-right').position(1);
         })();
 
+        slider.width = document.querySelector('#slider-wrap').clientWidth;
+
         (function activate() {
-            slider.set('slider', slider.slides[slider.startIndex]);
-            slider.timing('slider');
+            slider.timerId = setInterval(function () {
+                slider.scrollRight('#slider');
+            }, 6000);
         })();
 
         (function addOptions() {
-            document.getElementById('slider').addEventListener('mouseover', function () {
+            document.getElementById('slider-wrap').addEventListener('mouseover', function () {
                 clearInterval(slider.timerId);
             });
 
-            document.getElementById('slider').addEventListener('mouseout', function () {
-                slider.timing('slider');
+            document.getElementById('slider-wrap').addEventListener('mouseout', function () {
+                slider.timerId = setInterval(function () {
+                    slider.scrollRight('#slider');
+                }, 6000);
             });
 
             document.getElementById('slider-button-left').addEventListener('click', function () {
-                slider.scrollLeft('slider');
+                slider.scrollLeft('#slider');
             });
 
             document.getElementById('slider-button-right').addEventListener('click', function () {
-                slider.scrollRight('slider');
+                slider.scrollRight('#slider');
             });
         })();
 
@@ -489,32 +503,17 @@ var Slider1 = function (_Slider) {
     function Slider1() {
         _classCallCheck(this, Slider1);
 
-        var _this = _possibleConstructorReturn(this, (Slider1.__proto__ || Object.getPrototypeOf(Slider1)).call(this));
-
-        _this.slides = ['5.jpg', '6.jpg', '7.jpg', '8.jpg', '9.jpg'];
-        return _this;
+        return _possibleConstructorReturn(this, (Slider1.__proto__ || Object.getPrototypeOf(Slider1)).call(this));
     }
 
     _createClass(Slider1, [{
         key: 'indicator',
-        value: function indicator(sliderConteinerId, indicatorsId, color) {
-            for (var i = 0; i < this.slides.length; i++) {
-                if (document.getElementById(sliderConteinerId).style.backgroundImage === 'url("img/slider/' + this.slides[i] + '")') {
-                    document.getElementById(indicatorsId).childNodes[i].style.background = color;
-                } else {
-                    document.getElementById(indicatorsId).childNodes[i].style.background = null;
-                }
+        value: function indicator(indicatorsSelector) {
+            var list = document.querySelector(indicatorsSelector).childNodes;
+            for (var i = 0; i < list.length; i++) {
+                list[i].classList.remove('active');
             }
-        }
-    }, {
-        key: 'timing',
-        value: function timing(sliderConteinerId, indicatorsId, color) {
-            var self = this;
-
-            this.timerId = setInterval(function () {
-                self.scrollRight(sliderConteinerId);
-                self.indicator(sliderConteinerId, indicatorsId, color);
-            }, 6000);
+            list[this.index].classList.add('active');
         }
     }]);
 
@@ -531,92 +530,101 @@ function turnOnSlider1() {
     })();
 
     (function createDOM() {
-        element.create('article', 'div').id('slider1-wrap').class('slider-wrap').position(1);
-        element.create('slider1-wrap', 'div').id('slider1-title').class('slider-title').innerHTML('North Pole').position(0);
-        element.create('slider1-wrap', 'div').id('slider1').class('slider').position(1);
-        element.create('slider1', 'div').id('slider1-button-left').class('slider-button-left').position(0);
-        element.create('slider1', 'div').id('slider1-indicators').class('slider1-indicators').position(1);
-        element.create('slider1-indicators', 'div').id('slider1-slide0').class('slider1-slide').position(0);
-        element.create('slider1-indicators', 'div').id('slider1-slide1').class('slider1-slide').position(1);
-        element.create('slider1-indicators', 'div').id('slider1-slide2').class('slider1-slide').position(2);
-        element.create('slider1-indicators', 'div').id('slider1-slide3').class('slider1-slide').position(3);
-        element.create('slider1-indicators', 'div').id('slider1-slide4').class('slider1-slide').position(4);
-        element.create('slider1', 'div').id('slider1-button-right').class('slider-button-right').position(2);
+        element.create('article', 'div').id('slider1-conteiner').class('slider-conteiner').position(1);
+        element.create('slider1-conteiner', 'div').id('slider1-title').class('slider-title').innerHTML('North Pole').position(0);
+        element.create('slider1-conteiner', 'div').id('slider1-wrap').class('slider-wrap').position(1);
+        element.create('slider1-wrap', 'div').id('slider1').class('slider').position(0);
+        element.create('slider1', 'img').class('slider-slide').src('img/slider/5.jpg').alt('Sixth slide').position(1);
+        element.create('slider1', 'img').class('slider-slide').src('img/slider/6.jpg').alt('Seventh slide').position(2);
+        element.create('slider1', 'img').class('slider-slide').src('img/slider/7.jpg').alt('Eighth slide').position(3);
+        element.create('slider1', 'img').class('slider-slide').src('img/slider/8.jpg').alt('Ninth slide').position(4);
+        element.create('slider1', 'img').class('slider-slide').src('img/slider/9.jpg').alt('Tenth slide').position(5);
+        element.create('slider1-wrap', 'div').id('slider1-buttons').class('slider-buttons').position(1);
+        element.create('slider1-buttons', 'div').id('slider1-button-left').class('slider-button-left').position(0);
+        element.create('slider1-buttons', 'div').id('slider1-indicators').class('slider-indicators').position(1);
+        element.create('slider1-indicators', 'div').id('slider1-indicator1').class('slider1-indicator').position(0);
+        element.create('slider1-indicators', 'div').id('slider1-indicator2').class('slider1-indicator').position(1);
+        element.create('slider1-indicators', 'div').id('slider1-indicator3').class('slider1-indicator').position(2);
+        element.create('slider1-indicators', 'div').id('slider1-indicator4').class('slider1-indicator').position(3);
+        element.create('slider1-indicators', 'div').id('slider1-indicator5').class('slider1-indicator').position(4);
+        element.create('slider1-buttons', 'div').id('slider1-button-right').class('slider-button-right').position(2);
         element.create('slider1-wrap', 'div').id('slider1-hover').class('slider1-hover').position(2);
         document.getElementById('slider1-hover').hidden = true;
     })();
 
+    slider1.width = document.querySelector('#slider1-wrap').clientWidth;
+
     (function activate() {
-        slider1.set('slider1', slider1.slides[slider1.startIndex]);
-        slider1.indicator('slider1', 'slider1-indicators', 'white');
-        slider1.timing('slider1', 'slider1-indicators', 'white');
+        slider1.indicator('#slider1-indicators');
+        slider1.timerId = setInterval(function () {
+            slider1.scrollRight('#slider1');
+            slider1.indicator('#slider1-indicators');
+        }, 6000);
     })();
 
     (function addOptions() {
 
-        document.getElementById('slider1').addEventListener('mouseover', function () {
+        document.getElementById('slider1-wrap').addEventListener('mouseover', function () {
             clearInterval(slider1.timerId);
             document.getElementById('slider1-hover').hidden = false;
-            document.getElementById('slider1-hover').innerHTML = '' + document.getElementById("slider1").style.backgroundImage;
+            document.getElementById('slider1-hover').innerHTML = '' + document.getElementById("slider1").childNodes[slider1.index].alt;
         });
 
-        document.getElementById('slider1').addEventListener('mousemove', function (e) {
+        document.getElementById('slider1-wrap').addEventListener('mousemove', function (e) {
             var element = document.getElementById('slider1-hover');
-            element.style.left = e.clientX + 20 + 'px';
-            element.style.top = e.clientY + 500 + 'px';
+            element.style.left = e.pageX - 350 + 'px';
+            element.style.top = e.pageY - 700 + 'px';
         });
 
-        document.getElementById('slider1').addEventListener('mouseout', function () {
-            slider1.timing('slider1', 'slider1-indicators', 'white');
+        document.getElementById('slider1-wrap').addEventListener('mouseout', function () {
+            slider1.timerId = setInterval(function () {
+                slider1.scrollRight('#slider1');
+                slider1.indicator('#slider1-indicators');
+            }, 6000);
             document.getElementById('slider1-hover').hidden = true;
         });
 
         document.getElementById('slider1-button-left').addEventListener('click', function () {
-            slider1.scrollLeft('slider1');
-            slider1.indicator('slider1', 'slider1-indicators', 'white');
+            slider1.scrollLeft('#slider1');
+            slider1.indicator('#slider1-indicators');
         });
 
         document.getElementById('slider1-button-right').addEventListener('click', function () {
-            slider1.scrollRight('slider1');
-            slider1.indicator('slider1', 'slider1-indicators', 'white');
+            slider1.scrollRight('#slider1');
+            slider1.indicator('#slider1-indicators');
         });
 
-        document.getElementById('slider1-slide0').addEventListener('click', function () {
-            slider1.set('slider1', slider1.slides[0]);
-            slider1.indicator('slider1', 'slider1-indicators', 'white');
+        document.getElementById('slider1-indicator1').addEventListener('click', function () {
+            slider1.index = 0;
+            slider1.indicator('#slider1-indicators');
+            document.querySelector('#slider1').style.transform = 'translateX(' + -slider1.index * slider1.width + 'px)';
         });
 
-        document.getElementById('slider1-slide1').addEventListener('click', function () {
-            slider1.set('slider1', slider1.slides[1]);
-            slider1.indicator('slider1', 'slider1-indicators', 'white');
+        document.getElementById('slider1-indicator2').addEventListener('click', function () {
+            slider1.index = 1;
+            slider1.indicator('#slider1-indicators');
+            document.querySelector('#slider1').style.transform = 'translateX(' + -slider1.index * slider1.width + 'px)';
         });
 
-        document.getElementById('slider1-slide2').addEventListener('click', function () {
-            slider1.set('slider1', slider1.slides[2]);
-            slider1.indicator('slider1', 'slider1-indicators', 'white');
+        document.getElementById('slider1-indicator3').addEventListener('click', function () {
+            slider1.index = 2;
+            slider1.indicator('#slider1-indicators');
+            document.querySelector('#slider1').style.transform = 'translateX(' + -slider1.index * slider1.width + 'px)';
         });
 
-        document.getElementById('slider1-slide3').addEventListener('click', function () {
-            slider1.set('slider1', slider1.slides[3]);
-            slider1.indicator('slider1', 'slider1-indicators', 'white');
+        document.getElementById('slider1-indicator4').addEventListener('click', function () {
+            slider1.index = 3;
+            slider1.indicator('#slider1-indicators');
+            document.querySelector('#slider1').style.transform = 'translateX(' + -slider1.index * slider1.width + 'px)';
         });
 
-        document.getElementById('slider1-slide4').addEventListener('click', function () {
-            slider1.set('slider1', slider1.slides[4]);
-            slider1.indicator('slider1', 'slider1-indicators', 'white');
+        document.getElementById('slider1-indicator5').addEventListener('click', function () {
+            slider1.index = 4;
+            slider1.indicator('#slider1-indicators');
+            document.querySelector('#slider1').style.transform = 'translateX(' + -slider1.index * slider1.width + 'px)';
         });
     })();
 }
-(function turnOnClearAllButtton() {
-    var element = new CreateElement();
-
-    element.create('header', 'a').id('clearAll').class('clearAll').innerHTML('Clear All').position(0);
-    document.getElementById('clearAll').addEventListener('click', function () {
-        clearInterval(slider.timerId);
-        clearInterval(slider1.timerId);
-        document.getElementById('article').innerHTML = '';
-    });
-})();
 
 var SuperButtons = function () {
     function SuperButtons() {
@@ -626,11 +634,7 @@ var SuperButtons = function () {
     _createClass(SuperButtons, [{
         key: 'clickMe',
         value: function clickMe(event) {
-            if (event.target.style.background !== event.target.background) {
-                event.target.style.background = event.target.background;
-            } else {
-                event.target.style.background = 'grey';
-            }
+            event.target.classList.toggle('superButton');
         }
     }, {
         key: 'clear',
@@ -653,11 +657,8 @@ var SuperButtons = function () {
 
         buttons.clear('article');
         element.create('article', 'input').id('firstButton').class('superButton').value('First Button').type('button').position(0);
-        document.getElementById('firstButton').background = 'red';
         element.create('article', 'input').id('secondButton').class('superButton').value('Second Button').type('button').position(1);
-        document.getElementById('secondButton').background = 'green';
         element.create('article', 'input').id('thirdButton').class('superButton').value('Third Button').type('button').position(2);
-        document.getElementById('thirdButton').background = 'blue';
 
         document.getElementById('firstButton').addEventListener("click", buttons.clickMe);
         document.getElementById('secondButton').addEventListener("click", buttons.clickMe);
