@@ -113,14 +113,19 @@ class FormFunctions {
         for (let i = 0; i < inputsId.length; i++) {
             document.getElementById(inputsId[i]).value = event.target.parentElement.children[i].innerHTML;
         }
-
-        this.deleteRow();
     };
 }
 
 (function activateStudentsForm () {
     let functions = new FormFunctions;
     let label = false;
+
+    functions.deleteBackground = function () {
+        let collection = document.getElementById('studentsTable').childNodes[0].childNodes;
+        for (let i = 0; i < collection.length; i++) {
+            collection[i].style.background = null;
+        }
+    };
 
     document.getElementById('nav_item-studentsTable').addEventListener ('click', function () {
         studentsTableCreateDOM();
@@ -134,19 +139,9 @@ class FormFunctions {
                     document.getElementById('message-admission').style.visibility !== "visible" && document.getElementById('message-ending').style.visibility !== "visible") {
                     functions.addData('studentsTable', 'input-name', 'input-surname', 'input-admission', 'input-ending', 'input-site');
                     functions.clearForm('input-name', 'input-surname', 'input-admission', 'input-ending', 'input-site');
+                    functions.deleteBackground();
+                    functions.saveTable('studentsTable');
                 }
-            });
-        })();
-
-        (function clearInputs () {
-            document.getElementById('button-clear').addEventListener ('click', function () {
-                functions.clearForm('input-name', 'input-surname', 'input-admission', 'input-ending', 'input-site', 'input-filter');
-            });
-        })();
-
-        (function save () {
-            document.getElementById('button-save').addEventListener ('click', function () {
-                functions.saveTable('studentsTable');
             });
         })();
 
@@ -186,6 +181,7 @@ class FormFunctions {
             document.getElementById('studentsTable').addEventListener ('click', function () {
                 if (event.target.className === 'result-edit') {
                     functions.editRow('input-name', 'input-surname', 'input-admission', 'input-ending', 'input-site');
+                    event.target.parentElement.style.background = 'rgba(255,153,51,0.5)';
                 }
             });
         })();
@@ -194,7 +190,34 @@ class FormFunctions {
             document.getElementById('studentsTable').addEventListener ('click', function () {
                 if (event.target.className === 'result-delete') {
                     functions.deleteRow();
+                    functions.saveTable('studentsTable');
                 }
+            });
+        })();
+
+        (function change () {
+            document.getElementById('button-change').addEventListener ('click', function () {
+                let element;
+                let inputs = ['input-name', 'input-surname', 'input-admission', 'input-ending', 'input-site'];
+
+                (function () {
+                    let collection = document.getElementById('studentsTable').childNodes[0].childNodes;
+                    for (let i = 0; i < collection.length; i++) {
+                        if (collection[i].style.background != null) {
+                            element = collection[i];
+                        }
+                    }
+                })();
+
+                (function () {
+                    for (let s = 0; s < inputs.length; s++) {
+                        element.childNodes[s].innerHTML = document.getElementById(inputs[s]).value;
+                    }
+                })();
+
+                functions.clearForm('input-name', 'input-surname', 'input-admission', 'input-ending', 'input-site');
+                functions.deleteBackground();
+                functions.saveTable('studentsTable');
             });
         })();
     });

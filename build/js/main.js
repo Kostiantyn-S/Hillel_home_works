@@ -677,50 +677,51 @@ function studentsTableCreateDOM() {
     })();
 
     (function createForm() {
-        element.create('article', 'div').id('studentsTable-title').class('studentsTable-title').innerHTML('Students table').position(0);
+        element.create('article', 'div').id('students').class('students').position(0);
+        element.create('students', 'div').id('studentsTable-title').class('studentsTable-title').innerHTML('Students table').position(0);
 
-        element.create('article', 'form').id('studentsForm').class('studentsForm').position(1);
-
-        element.create('studentsForm', 'div').id('studentsForm-inputs').class('studentsForm-inputs').position(0);
-
-        element.create('studentsForm-inputs', 'div').id('studentsForm-name').class('studentsForm-inputConteiner').position(0);
+        element.create('students', 'form').id('studentsForm').class('studentsForm').position(1);
+        element.create('studentsForm', 'div').id('studentsForm-nameSurname').class('studentsForm-nameSurname').position(0);
+        element.create('studentsForm-nameSurname', 'div').id('studentsForm-name').class('studentsForm-inputConteiner').position(0);
         element.create('studentsForm-name', 'label').id('label-name').class('studentsForm-label').for('input-name').innerHTML('Name: ').position(0);
         element.create('studentsForm-name', 'input').id('input-name').class('studentsForm-input').type('text').required(true).placeholder('Kostiantyn').position(1);
         element.create('studentsForm-name', 'span').id('message-name').class('studentsForm-message').innerHTML('The name must consist of uppercase or lowercase latin letters or symbols "-" and "space", max length 20 symbols.').position(2);
 
-        element.create('studentsForm-inputs', 'div').id('studentsForm-surname').class('studentsForm-inputConteiner').position(1);
+        element.create('studentsForm-nameSurname', 'div').id('studentsForm-surname').class('studentsForm-inputConteiner').position(1);
         element.create('studentsForm-surname', 'label').id('label-surname').class('studentsForm-label').for('input-surname').innerHTML('Surname: ').position(0);
         element.create('studentsForm-surname', 'input').id('input-surname').class('studentsForm-input').type('text').required(true).placeholder('Starchyk').position(1);
         element.create('studentsForm-surname', 'span').id('message-surname').class('studentsForm-message').innerHTML('The surname must consist of uppercase or lowercase latin letters or symbols "-" and "space", max length 20 symbols.').position(2);
 
-        element.create('studentsForm-inputs', 'div').id('studentsForm-admission').class('studentsForm-inputConteiner').position(2);
+        element.create('studentsForm', 'div').id('studentsForm-admissionEnding').class('studentsForm-admissionEnding').position(1);
+        element.create('studentsForm-admissionEnding', 'div').id('studentsForm-admission').class('studentsForm-inputConteiner').position(0);
         element.create('studentsForm-admission', 'label').id('label-admission').class('studentsForm-label').for('input-admission').innerHTML('Admission year: ').position(0);
         element.create('studentsForm-admission', 'input').id('input-admission').class('studentsForm-input').type('number').required(true).placeholder('2006').position(1);
         element.create('studentsForm-admission', 'span').id('message-admission').class('studentsForm-message').innerHTML('The admission year must be positive integer consists of four numbers.').position(2);
 
-        element.create('studentsForm-inputs', 'div').id('studentsForm-ending').class('studentsForm-inputConteiner').position(3);
+        element.create('studentsForm-admissionEnding', 'div').id('studentsForm-ending').class('studentsForm-inputConteiner').position(1);
         element.create('studentsForm-ending', 'label').id('label-ending').class('studentsForm-label').for('input-ending').innerHTML('Year of ending: ').position(0);
         element.create('studentsForm-ending', 'input').id('input-ending').class('studentsForm-input').type('number').required(true).placeholder('2011').position(1);
         element.create('studentsForm-ending', 'span').id('message-ending').class('studentsForm-message').innerHTML('The year of ending must be positive integer consists of four numbers.').position(2);
 
-        element.create('studentsForm-inputs', 'div').id('studentsForm-site').class('studentsForm-inputConteiner').position(4);
+        element.create('studentsForm', 'div').id('studentsForm-siteAddButton').class('studentsForm-siteAddButton').position(2);
+        element.create('studentsForm-siteAddButton', 'div').id('studentsForm-site').class('studentsForm-inputConteiner').position(0);
         element.create('studentsForm-site', 'label').id('label-site').class('studentsForm-label').for('input-site').innerHTML('Site: ').position(0);
         element.create('studentsForm-site', 'input').id('input-site').class('studentsForm-input').type('text').placeholder('www.google.com').position(1);
 
-        element.create('studentsForm-inputs', 'div').id('studentsForm-filter').class('studentsForm-inputConteiner').position(5);
+        element.create('studentsForm-siteAddButton', 'input').type('button').value('Add / Save').id('button-add').class('studentsForm-button').position(1);
+        element.create('studentsForm-siteAddButton', 'input').type('button').value('Change').id('button-change').class('studentsForm-button').position(2);
+
+        element.create('studentsForm', 'div').id('studentsForm-filterConteiner').class('studentsForm-filterConteiner').position(3);
+        element.create('studentsForm-filterConteiner', 'div').id('studentsForm-filter').class('studentsForm-inputConteiner').position(0);
         element.create('studentsForm-filter', 'label').id('label-filter').class('studentsForm-label').for('input-filter').innerHTML('Filter: ').position(0);
         element.create('studentsForm-filter', 'input').id('input-filter').class('studentsForm-input').type('text').placeholder('St').position(1);
 
-        element.create('studentsForm', 'div').id('studentsForm-buttons').class('studentsForm-buttons').position(1);
-        element.create('studentsForm-buttons', 'input').type('button').value('Add to table').id('button-add').class('studentsForm-button').position(0);
-        element.create('studentsForm-buttons', 'input').type('button').value('Clear form').id('button-clear').class('studentsForm-button').position(1);
-        element.create('studentsForm-buttons', 'input').type('button').value('Save table').id('button-save').class('studentsForm-button').position(2);
-        element.create('studentsForm-buttons', 'input').type('button').value('Apply filter').id('button-applyFilter').class('studentsForm-button').position(3);
-        element.create('studentsForm-buttons', 'input').type('button').value('Delete filter').id('button-delFilter').class('studentsForm-button').position(4);
+        element.create('studentsForm-filterConteiner', 'input').type('button').value('Apply filter').id('button-applyFilter').class('studentsForm-button').position(1);
+        element.create('studentsForm-filterConteiner', 'input').type('button').value('Delete filter').id('button-delFilter').class('studentsForm-button').position(2);
     })();
 
     (function createTable() {
-        element.create('article', 'table').id('studentsTable').class('studentsTable').position(2);
+        element.create('students', 'table').id('studentsTable').class('studentsTable').position(2);
         element.create('studentsTable', 'tr').id('studentsTable-head').class('studentsTable-head').position(0);
         element.create('studentsTable-head', 'td').id('head-name').class('head-name').innerHTML('Name').position(0);
         element.create('studentsTable-head', 'td').id('head-surname').class('head-surname').innerHTML('Surname').position(1);
@@ -951,8 +952,6 @@ var FormFunctions = function () {
             for (var i = 0; i < inputsId.length; i++) {
                 document.getElementById(inputsId[i]).value = event.target.parentElement.children[i].innerHTML;
             }
-
-            this.deleteRow();
         }
     }]);
 
@@ -963,6 +962,13 @@ var FormFunctions = function () {
     var functions = new FormFunctions();
     var label = false;
 
+    functions.deleteBackground = function () {
+        var collection = document.getElementById('studentsTable').childNodes[0].childNodes;
+        for (var i = 0; i < collection.length; i++) {
+            collection[i].style.background = null;
+        }
+    };
+
     document.getElementById('nav_item-studentsTable').addEventListener('click', function () {
         studentsTableCreateDOM();
         turnOnValidation();
@@ -972,19 +978,9 @@ var FormFunctions = function () {
                 if (document.getElementById('input-name').value !== '' && document.getElementById('input-surname').value !== '' && document.getElementById('input-admission').value !== '' && document.getElementById('input-ending').value !== '' && document.getElementById('message-name').style.visibility !== "visible" && document.getElementById('message-surname').style.visibility !== "visible" && document.getElementById('message-admission').style.visibility !== "visible" && document.getElementById('message-ending').style.visibility !== "visible") {
                     functions.addData('studentsTable', 'input-name', 'input-surname', 'input-admission', 'input-ending', 'input-site');
                     functions.clearForm('input-name', 'input-surname', 'input-admission', 'input-ending', 'input-site');
+                    functions.deleteBackground();
+                    functions.saveTable('studentsTable');
                 }
-            });
-        })();
-
-        (function clearInputs() {
-            document.getElementById('button-clear').addEventListener('click', function () {
-                functions.clearForm('input-name', 'input-surname', 'input-admission', 'input-ending', 'input-site', 'input-filter');
-            });
-        })();
-
-        (function save() {
-            document.getElementById('button-save').addEventListener('click', function () {
-                functions.saveTable('studentsTable');
             });
         })();
 
@@ -1024,6 +1020,7 @@ var FormFunctions = function () {
             document.getElementById('studentsTable').addEventListener('click', function () {
                 if (event.target.className === 'result-edit') {
                     functions.editRow('input-name', 'input-surname', 'input-admission', 'input-ending', 'input-site');
+                    event.target.parentElement.style.background = 'rgba(255,153,51,0.5)';
                 }
             });
         })();
@@ -1032,7 +1029,34 @@ var FormFunctions = function () {
             document.getElementById('studentsTable').addEventListener('click', function () {
                 if (event.target.className === 'result-delete') {
                     functions.deleteRow();
+                    functions.saveTable('studentsTable');
                 }
+            });
+        })();
+
+        (function change() {
+            document.getElementById('button-change').addEventListener('click', function () {
+                var element = void 0;
+                var inputs = ['input-name', 'input-surname', 'input-admission', 'input-ending', 'input-site'];
+
+                (function () {
+                    var collection = document.getElementById('studentsTable').childNodes[0].childNodes;
+                    for (var i = 0; i < collection.length; i++) {
+                        if (collection[i].style.background != null) {
+                            element = collection[i];
+                        }
+                    }
+                })();
+
+                (function () {
+                    for (var s = 0; s < inputs.length; s++) {
+                        element.childNodes[s].innerHTML = document.getElementById(inputs[s]).value;
+                    }
+                })();
+
+                functions.clearForm('input-name', 'input-surname', 'input-admission', 'input-ending', 'input-site');
+                functions.deleteBackground();
+                functions.saveTable('studentsTable');
             });
         })();
     });
