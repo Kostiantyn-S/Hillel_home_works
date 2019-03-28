@@ -8,3 +8,4 @@
 //=require partials/studentsTable/createDOM.js
 //=require partials/studentsTable/validation.js
 //=require partials/studentsTable/activateForm.js
+//=require partials/progressbar.js
