@@ -147,10 +147,11 @@ class Clock {
 (function turnOnClock () {
     let element = new CreateElement;
 
-    element.create('header', 'div').id('date').class('date').position(0);
+    element.create('header', 'div').id('dateAndTime').class('dateAndTime').position();
+    element.create('dateAndTime', 'div').id('date').class('date').position(0);
     element.create('date', 'span').id('date-week').position();
     element.create('date', 'span').id('date-day').position();
-    element.create('header', 'div').id('time').class('time').position(1);
+    element.create('dateAndTime', 'div').id('time').class('time').position(1);
     element.create('time', 'span').id('time-hours').position();
     element.create('time', 'span').id('time-minutes').position();
     element.create('time', 'span').id('time-seconds').position();

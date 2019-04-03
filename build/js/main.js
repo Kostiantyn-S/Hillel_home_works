@@ -196,10 +196,11 @@ var Clock = function () {
 (function turnOnClock() {
     var element = new CreateElement();
 
-    element.create('header', 'div').id('date').class('date').position(0);
+    element.create('header', 'div').id('dateAndTime').class('dateAndTime').position();
+    element.create('dateAndTime', 'div').id('date').class('date').position(0);
     element.create('date', 'span').id('date-week').position();
     element.create('date', 'span').id('date-day').position();
-    element.create('header', 'div').id('time').class('time').position(1);
+    element.create('dateAndTime', 'div').id('time').class('time').position(1);
     element.create('time', 'span').id('time-hours').position();
     element.create('time', 'span').id('time-minutes').position();
     element.create('time', 'span').id('time-seconds').position();
@@ -1061,123 +1062,352 @@ var FormFunctions = function () {
         })();
     });
 })();
-function turnOnProgressbar() {
+var progressbar = {};
+
+progressbar.clear = function () {
+    if (document.getElementById('article').innerHTML !== "") {
+        clearInterval(slider.timerId);
+        clearInterval(slider1.timerId);
+        document.getElementById('article').innerHTML = "";
+    }
+};
+
+progressbar.createDOM = function () {
     var element = new CreateElement();
     var text = 'Многие думают, что Lorem Ipsum - взятый с потолка псевдо-латинский набор слов, но это не совсем так.';
 
-    (function clear() {
-        if (document.getElementById('article').innerHTML !== "") {
-            clearInterval(slider.timerId);
-            clearInterval(slider1.timerId);
-            document.getElementById('article').innerHTML = "";
-        }
-    })();
+    element.create('article', 'div').id('progressbar-wrap').class('progressbar-wrap').position(0);
+    element.create('progressbar-wrap', 'div').id('progressbar-mainTitle').class('progressbar-mainTitle').innerHTML('Progressbar').position(0);
+    element.create('progressbar-wrap', 'div').id('progressbar-loader').class('progressbar-loader').position(1);
+    element.create('progressbar-loader', 'div').id('progressbar-loader_progress').class('progressbar-loader_progress').position();
 
-    (function createDOM() {
-        element.create('article', 'div').id('progressbar-wrap').class('progressbar-wrap').position(0);
-        element.create('progressbar-wrap', 'div').id('progressbar-mainTitle').class('progressbar-mainTitle').innerHTML('Progressbar').position(0);
-        element.create('progressbar-wrap', 'div').id('progressbar-loader').class('progressbar-loader').position(1);
-        element.create('progressbar-loader', 'div').id('progressbar-loader_progress').class('progressbar-loader_progress').position();
+    element.create('progressbar-wrap', 'div').id('progressbar-buttons').class('progressbar-buttons').position(2);
+    element.create('progressbar-buttons', 'input').type('button').value('In order').id('progressbar-inOrder').class('progressbar-button').position(0);
+    element.create('progressbar-buttons', 'input').type('button').value('Together').id('progressbar-together').class('progressbar-button').position(1);
 
-        element.create('progressbar-wrap', 'div').id('progressbar-buttons').class('progressbar-buttons').position(2);
-        element.create('progressbar-buttons', 'input').type('button').value('In order').id('progressbar-inOrder').class('progressbar-button').position(0);
-        element.create('progressbar-buttons', 'input').type('button').value('Together').id('progressbar-together').class('progressbar-button').position(1);
+    element.create('progressbar-wrap', 'div').id('progressbar-articles').class('progressbar-articles').position(3);
+    element.create('progressbar-articles', 'div').id('progressbar-firstArticle').class('progressbar-article').position(0);
+    element.create('progressbar-firstArticle', 'img').id('progressbar-firstImg').class('progressbar-img').src('img/slider/1.jpg').alt('first').position(0);
+    element.create('progressbar-firstArticle', 'div').id('progressbar-firstTitleText').class('progressbar-titleText').position(1);
+    element.create('progressbar-firstTitleText', 'div').id('progressbar-firstTitle').class('progressbar-title').innerHTML('Some title').position(0);
+    element.create('progressbar-firstTitleText', 'div').id('progressbar-firstText').class('progressbar-text').innerHTML(text).position(1);
 
-        element.create('progressbar-wrap', 'div').id('progressbar-articles').class('progressbar-articles').position(3);
-        element.create('progressbar-articles', 'div').id('progressbar-firstArticle').class('progressbar-article').position(0);
-        element.create('progressbar-firstArticle', 'img').id('progressbar-firstImg').class('progressbar-img').src('img/slider/1.jpg').alt('first').position(0);
-        element.create('progressbar-firstArticle', 'div').id('progressbar-firstTitleText').class('progressbar-titleText').position(1);
-        element.create('progressbar-firstTitleText', 'div').id('progressbar-firstTitle').class('progressbar-title').innerHTML('Some title').position(0);
-        element.create('progressbar-firstTitleText', 'div').id('progressbar-firstText').class('progressbar-text').innerHTML(text).position(1);
+    element.create('progressbar-articles', 'div').id('progressbar-secondArticle').class('progressbar-article').position(1);
+    element.create('progressbar-secondArticle', 'img').id('progressbar-secondImg').class('progressbar-img').src('img/slider/5.jpg').alt('second').position(0);
+    element.create('progressbar-secondArticle', 'div').id('progressbar-secondTitleText').class('progressbar-titleText').position(1);
+    element.create('progressbar-secondTitleText', 'div').id('progressbar-secondTitle').class('progressbar-title').innerHTML('Some title').position(0);
+    element.create('progressbar-secondTitleText', 'div').id('progressbar-secondText').class('progressbar-text').innerHTML(text).position(1);
 
-        element.create('progressbar-articles', 'div').id('progressbar-secondArticle').class('progressbar-article').position(1);
-        element.create('progressbar-secondArticle', 'img').id('progressbar-secondImg').class('progressbar-img').src('img/slider/5.jpg').alt('second').position(0);
-        element.create('progressbar-secondArticle', 'div').id('progressbar-secondTitleText').class('progressbar-titleText').position(1);
-        element.create('progressbar-secondTitleText', 'div').id('progressbar-secondTitle').class('progressbar-title').innerHTML('Some title').position(0);
-        element.create('progressbar-secondTitleText', 'div').id('progressbar-secondText').class('progressbar-text').innerHTML(text).position(1);
+    element.create('progressbar-articles', 'div').id('progressbar-thirdArticle').class('progressbar-article').position(2);
+    element.create('progressbar-thirdArticle', 'img').id('progressbar-thirdImg').class('progressbar-img').src('img/slider/7.jpg').alt('third').position(0);
+    element.create('progressbar-thirdArticle', 'div').id('progressbar-thirdTitleText').class('progressbar-titleText').position(1);
+    element.create('progressbar-thirdTitleText', 'div').id('progressbar-thirdTitle').class('progressbar-title').innerHTML('Some title').position(0);
+    element.create('progressbar-thirdTitleText', 'div').id('progressbar-thirdText').class('progressbar-text').innerHTML(text).position(1);
+};
 
-        element.create('progressbar-articles', 'div').id('progressbar-thirdArticle').class('progressbar-article').position(2);
-        element.create('progressbar-thirdArticle', 'img').id('progressbar-thirdImg').class('progressbar-img').src('img/slider/7.jpg').alt('third').position(0);
-        element.create('progressbar-thirdArticle', 'div').id('progressbar-thirdTitleText').class('progressbar-titleText').position(1);
-        element.create('progressbar-thirdTitleText', 'div').id('progressbar-thirdTitle').class('progressbar-title').innerHTML('Some title').position(0);
-        element.create('progressbar-thirdTitleText', 'div').id('progressbar-thirdText').class('progressbar-text').innerHTML(text).position(1);
-    })();
+progressbar.load = function () {
+    function toVisibleButtons() {
+        document.querySelector('#progressbar-buttons').classList.add('visible');
+        document.querySelector('#progressbar-loader_progress').removeEventListener('transitionend', toVisibleButtons);
+    }
 
-    setTimeout(function () {
-        document.querySelector('#progressbar-loader_progress').style.transform = 'translateX(-400px)';
-    });
-
-    (function activateButtons() {
-        document.querySelector('#progressbar-loader_progress').addEventListener('transitionend', function () {
-            document.querySelector('#progressbar-buttons').classList.add('visible');
+    Promise.resolve().then(function () {
+        return document.querySelector('#progressbar-loader_progress').addEventListener('transitionend', toVisibleButtons);
+    }).then(function () {
+        return setTimeout(function () {
+            return document.querySelector('#progressbar-loader_progress').style.transform = 'translateX(-400px)';
         });
-    })();
-
-    document.querySelector('#progressbar-inOrder').addEventListener('click', function () {
-        document.querySelector('#progressbar-together').classList.add('unvisible');
-
-        var images = document.querySelectorAll('.progressbar-img');
-        var titles = document.querySelectorAll('.progressbar-title');
-        var texts = document.querySelectorAll('.progressbar-text');
-        var articles = document.querySelectorAll('.progressbar-article');
-
-        var chain = Promise.resolve().then(function () {
-            images.forEach(function (item) {
-                item.classList.add('scale');
-            });
-        }).then(setTimeout(function () {
-            titles.forEach(function (item) {
-                item.classList.add('scale');
-            });
-        }, 3000)).then(setTimeout(function () {
-            texts.forEach(function (item) {
-                item.classList.add('scale');
-            });
-        }, 6000)).then(setTimeout(function () {
-            articles.forEach(function (item) {
-                item.classList.add('scale');
-            });
-        }, 9000)).then(setTimeout(function () {
-            articles.forEach(function (item) {
-                item.classList.remove('scale');
-            });
-        }, 12000)).then(setTimeout(function () {
-            texts.forEach(function (item) {
-                item.classList.remove('scale');
-            });
-        }, 15000)).then(setTimeout(function () {
-            titles.forEach(function (item) {
-                item.classList.remove('scale');
-            });
-        }, 18000)).then(setTimeout(function () {
-            images.forEach(function (item) {
-                item.classList.remove('scale');
-            });
-        }, 21000)).then(setTimeout(function () {
-            return document.querySelector('#progressbar-together').classList.remove('unvisible');
-        }, 24000));
     });
+};
 
-    document.querySelector('#progressbar-together').addEventListener('click', function () {
-        document.querySelector('#progressbar-inOrder').classList.add('unvisible');
+progressbar.ToVisblleButton = function () {
+    if (document.querySelector('#progressbar-inOrder').classList.contains('unvisible') === true) {
+        document.querySelector('#progressbar-inOrder').classList.remove('unvisible');
+    } else {
+        document.querySelector('#progressbar-together').classList.remove('unvisible');
+    }
+};
 
-        var articles = document.querySelectorAll('.progressbar-article');
+progressbar.scale = function (event) {
+    switch (event.target) {
+        case event.currentTarget.childNodes[0]:
+            if (event.currentTarget.childNodes[0].classList.contains('scale') === true) {
+                event.currentTarget.childNodes[1].childNodes[0].classList.toggle('scale');
+            } else {
+                progressbar.ToVisblleButton();
+                event.currentTarget.removeEventListener('transitionend', progressbar.scale);
+            }
+            break;
 
-        var chain = Promise.resolve().then(function () {
-            articles.forEach(function (item) {
-                item.classList.add('scale');
-            });
-        }).then(setTimeout(function () {
-            articles.forEach(function (item) {
-                item.classList.remove('scale');
-            });
-        }, 3000)).then(setTimeout(function () {
-            return document.querySelector('#progressbar-inOrder').classList.remove('unvisible');
-        }, 6000));
+        case event.currentTarget.childNodes[1].childNodes[0]:
+            if (event.currentTarget.childNodes[1].childNodes[0].classList.contains('scale') === true) {
+                event.currentTarget.childNodes[1].childNodes[1].classList.toggle('scale');
+            } else {
+                event.currentTarget.childNodes[0].classList.toggle('scale');
+            }
+            break;
+
+        case event.currentTarget.childNodes[1].childNodes[1]:
+            if (event.currentTarget.childNodes[1].childNodes[1].classList.contains('scale') === true) {
+                event.currentTarget.classList.toggle('scale');
+            } else {
+                event.currentTarget.childNodes[1].childNodes[0].classList.toggle('scale');
+            }
+            break;
+
+        case event.currentTarget:
+            if (event.currentTarget.classList.contains('scale') === true) {
+                event.currentTarget.classList.toggle('scale');
+            } else {
+                event.currentTarget.childNodes[1].childNodes[1].classList.toggle('scale');
+            }
+            break;
+    }
+};
+
+progressbar.activateArticle = function (elementSelector, buttonId) {
+    var _this2 = this;
+
+    Promise.resolve().then(function () {
+        return document.querySelector(elementSelector).addEventListener('transitionend', _this2.scale);
+    }).then(function () {
+        return document.querySelector(elementSelector).childNodes[0].classList.add('scale');
+    }).then(function () {
+        return document.querySelector(buttonId).classList.add('unvisible');
     });
-}
+};
 
-(function activateProgressbar() {
-    document.querySelector('#nav_item-progressbar').addEventListener('click', turnOnProgressbar);
-})();
+progressbar.togetherClick = function () {
+    progressbar.activateArticle('#progressbar-firstArticle', '#progressbar-inOrder');
+    progressbar.activateArticle('#progressbar-secondArticle', '#progressbar-inOrder');
+    progressbar.activateArticle('#progressbar-thirdArticle', '#progressbar-inOrder');
+};
+
+progressbar.setTogetherListener = function () {
+    document.querySelector('#progressbar-together').addEventListener('click', this.togetherClick);
+};
+
+progressbar.inOrder = function (event) {
+    switch (event.target) {
+        case document.querySelector('#progressbar-firstImg'):
+            if (event.target.classList.contains('scale') === true) {
+                document.querySelector('#progressbar-firstTitle').classList.add('scale');
+            } else {
+                document.querySelector('#progressbar-together').classList.remove('unvisible');
+                document.querySelector('#progressbar-articles').removeEventListener('transitionend', progressbar.inOrder);
+            }
+            break;
+
+        case document.querySelector('#progressbar-firstTitle'):
+            if (event.target.classList.contains('scale') === true) {
+                document.querySelector('#progressbar-firstText').classList.add('scale');
+            } else {
+                document.querySelector('#progressbar-firstImg').classList.remove('scale');
+            }
+            break;
+
+        case document.querySelector('#progressbar-firstText'):
+            if (event.target.classList.contains('scale') === true) {
+                document.querySelector('#progressbar-firstArticle').classList.add('scale');
+            } else {
+                document.querySelector('#progressbar-firstTitle').classList.remove('scale');
+            }
+            break;
+
+        case document.querySelector('#progressbar-firstArticle'):
+            if (event.target.classList.contains('scale') === true) {
+                document.querySelector('#progressbar-secondImg').classList.add('scale');
+            } else {
+                document.querySelector('#progressbar-firstText').classList.remove('scale');
+            }
+            break;
+
+        case document.querySelector('#progressbar-secondImg'):
+            if (event.target.classList.contains('scale') === true) {
+                document.querySelector('#progressbar-secondTitle').classList.add('scale');
+            } else {
+                document.querySelector('#progressbar-firstArticle').classList.remove('scale');
+            }
+            break;
+
+        case document.querySelector('#progressbar-secondTitle'):
+            if (event.target.classList.contains('scale') === true) {
+                document.querySelector('#progressbar-secondText').classList.add('scale');
+            } else {
+                document.querySelector('#progressbar-secondImg').classList.remove('scale');
+            }
+            break;
+
+        case document.querySelector('#progressbar-secondText'):
+            if (event.target.classList.contains('scale') === true) {
+                document.querySelector('#progressbar-secondArticle').classList.add('scale');
+            } else {
+                document.querySelector('#progressbar-secondTitle').classList.remove('scale');
+            }
+            break;
+
+        case document.querySelector('#progressbar-secondArticle'):
+            if (event.target.classList.contains('scale') === true) {
+                document.querySelector('#progressbar-thirdImg').classList.add('scale');
+            } else {
+                document.querySelector('#progressbar-secondText').classList.remove('scale');
+            }
+            break;
+
+        case document.querySelector('#progressbar-thirdImg'):
+            if (event.target.classList.contains('scale') === true) {
+                document.querySelector('#progressbar-thirdTitle').classList.add('scale');
+            } else {
+                document.querySelector('#progressbar-secondArticle').classList.remove('scale');
+            }
+            break;
+
+        case document.querySelector('#progressbar-thirdTitle'):
+            if (event.target.classList.contains('scale') === true) {
+                document.querySelector('#progressbar-thirdText').classList.add('scale');
+            } else {
+                document.querySelector('#progressbar-thirdImg').classList.remove('scale');
+            }
+            break;
+
+        case document.querySelector('#progressbar-thirdText'):
+            if (event.target.classList.contains('scale') === true) {
+                document.querySelector('#progressbar-thirdArticle').classList.add('scale');
+            } else {
+                document.querySelector('#progressbar-thirdTitle').classList.remove('scale');
+            }
+            break;
+
+        case document.querySelector('#progressbar-thirdArticle'):
+            if (event.target.classList.contains('scale') === true) {
+                event.target.classList.remove('scale');
+            } else {
+                document.querySelector('#progressbar-thirdText').classList.remove('scale');
+            }
+            break;
+    }
+};
+
+progressbar.inOrderClick = function () {
+    Promise.resolve().then(function () {
+        return document.querySelector('#progressbar-articles').addEventListener('transitionend', progressbar.inOrder);
+    }).then(function () {
+        return document.querySelector('#progressbar-together').classList.add('unvisible');
+    }).then(function () {
+        return document.querySelector('#progressbar-firstImg').classList.add('scale');
+    });
+};
+
+progressbar.setInOrderListener = function () {
+    document.querySelector('#progressbar-inOrder').addEventListener('click', this.inOrderClick);
+};
+
+progressbar.activateProgressbar = function () {
+    var self = this;
+    document.querySelector('#nav_item-progressbar').addEventListener('click', function () {
+        Promise.resolve().then(function () {
+            return self.clear();
+        }).then(function () {
+            return self.createDOM();
+        }).then(function () {
+            return self.load();
+        }).then(function () {
+            return self.setTogetherListener();
+        }).then(function () {
+            return self.setInOrderListener();
+        });
+    });
+};
+
+progressbar.activateProgressbar();
+var autocomplete = {};
+
+autocomplete.createDOM = function () {
+    var element = new CreateElement();
+    element.create('header', 'input').id('autocomplete-input').class('autocomplete-input').type('text').placeholder('Enter your place').position(0);
+    element.create('article', 'div').id('map').class('map').position();
+};
+
+autocomplete.initAutocomplete = function () {
+    function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+            center: { lat: -33.8688, lng: 151.2195 },
+            zoom: 13
+        });
+        var input = document.getElementById('autocomplete-input');
+        map.controls[google.maps.ControlPosition.TOP_RIGHT].push(card);
+
+        var autocomplete = new google.maps.places.Autocomplete(input);
+
+        // Bind the map's bounds (viewport) property to the autocomplete object,
+        // so that the autocomplete requests use the current map bounds for the
+        // bounds option in the request.
+        autocomplete.bindTo('bounds', map);
+
+        // Set the data fields to return when the user selects a place.
+        autocomplete.setFields(['address_components', 'geometry', 'icon', 'name']);
+
+        var infowindow = new google.maps.InfoWindow();
+        var infowindowContent = document.getElementById('infowindow-content');
+        infowindow.setContent(infowindowContent);
+        var marker = new google.maps.Marker({
+            map: map,
+            anchorPoint: new google.maps.Point(0, -29)
+        });
+
+        autocomplete.addListener('place_changed', function () {
+            infowindow.close();
+            marker.setVisible(false);
+            var place = autocomplete.getPlace();
+            if (!place.geometry) {
+                // User entered the name of a Place that was not suggested and
+                // pressed the Enter key, or the Place Details request failed.
+                window.alert("No details available for input: '" + place.name + "'");
+                return;
+            }
+
+            // If the place has a geometry, then present it on a map.
+            if (place.geometry.viewport) {
+                map.fitBounds(place.geometry.viewport);
+            } else {
+                map.setCenter(place.geometry.location);
+                map.setZoom(17); // Why 17? Because it looks good.
+            }
+            marker.setPosition(place.geometry.location);
+            marker.setVisible(true);
+
+            var address = '';
+            if (place.address_components) {
+                address = [place.address_components[0] && place.address_components[0].short_name || '', place.address_components[1] && place.address_components[1].short_name || '', place.address_components[2] && place.address_components[2].short_name || ''].join(' ');
+            }
+
+            infowindowContent.children['place-icon'].src = place.icon;
+            infowindowContent.children['place-name'].textContent = place.name;
+            infowindowContent.children['place-address'].textContent = address;
+            infowindow.open(map, marker);
+        });
+
+        // Sets a listener on a radio button to change the filter type on Places
+        // Autocomplete.
+        function setupClickListener(id, types) {
+            var radioButton = document.getElementById(id);
+            radioButton.addEventListener('click', function () {
+                autocomplete.setTypes(types);
+            });
+        }
+
+        setupClickListener('changetype-all', []);
+        setupClickListener('changetype-address', ['address']);
+        setupClickListener('changetype-establishment', ['establishment']);
+        setupClickListener('changetype-geocode', ['geocode']);
+
+        document.getElementById('use-strict-bounds').addEventListener('click', function () {
+            console.log('Checkbox clicked! New state=' + this.checked);
+            autocomplete.setOptions({ strictBounds: this.checked });
+        });
+    }
+};
+
+autocomplete.createDOM();
+autocomplete.initAutocomplete();
 //# sourceMappingURL=../maps/main.js.map

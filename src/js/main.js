@@ -9,3 +9,4 @@
 //=require partials/studentsTable/validation.js
 //=require partials/studentsTable/activateForm.js
 //=require partials/progressbar.js
+//=require partials/mapAutocomplete.js
