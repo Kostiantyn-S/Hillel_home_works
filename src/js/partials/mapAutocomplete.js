@@ -2,95 +2,49 @@ let autocomplete = {};
 
 autocomplete.createDOM = function () {
     let element = new CreateElement;
-    element.create('header', 'input').id('autocomplete-input').class('autocomplete-input').type('text').placeholder('Enter your place').position(0);
+    element.create('header', 'div').id('autocomplete-weather').class('autocomplete-weather').position(0);
+        element.create('autocomplete-weather', 'div').id('pac-container').class('pac-container').position(0);
+            element.create('pac-container', 'input').id('pac-input').class('pac-input').type('text').placeholder('Enter your location').position();
     element.create('article', 'div').id('map').class('map').position();
 };
 
-autocomplete.initAutocomplete = function () {
-    function initMap() {
-        let map = new google.maps.Map(document.getElementById('map'), {
-            center: {lat: -33.8688, lng: 151.2195},
-            zoom: 13
+autocomplete.initMap = function () {
+    let map = new google.maps.Map(document.getElementById('map'), {
+        center: {lat: +window.localStorage.getItem('lat') || 6.047978, lng: +window.localStorage.getItem('lng') || 80.212836},
+        zoom: 10,
+        mapTypeId: 'hybrid'
         });
-        let input = document.getElementById('autocomplete-input');
-        map.controls[google.maps.ControlPosition.TOP_RIGHT].push(card);
+    document.getElementById('pac-input').value = window.localStorage.getItem('city') || `Galle, Sri-Lanka`;
 
-        let autocomplete = new google.maps.places.Autocomplete(input);
+    let input = document.getElementById('pac-input');
+    let autocomplete = new google.maps.places.Autocomplete(input);
+    autocomplete.bindTo('bounds', map);
 
-        // Bind the map's bounds (viewport) property to the autocomplete object,
-        // so that the autocomplete requests use the current map bounds for the
-        // bounds option in the request.
-        autocomplete.bindTo('bounds', map);
+    let infowindow = new google.maps.InfoWindow();
+    let infowindowContent = document.getElementById('infowindow-content');
+    infowindow.setContent(infowindowContent);
+    let marker = new google.maps.Marker({
+        map: map,
+        anchorPoint: new google.maps.Point(0, -29)
+    });
 
-        // Set the data fields to return when the user selects a place.
-        autocomplete.setFields(
-            ['address_components', 'geometry', 'icon', 'name']);
+    autocomplete.addListener('place_changed', function() {
+        infowindow.close();
+        marker.setVisible(false);
+        let place = autocomplete.getPlace();
 
-        var infowindow = new google.maps.InfoWindow();
-        var infowindowContent = document.getElementById('infowindow-content');
-        infowindow.setContent(infowindowContent);
-        var marker = new google.maps.Marker({
-            map: map,
-            anchorPoint: new google.maps.Point(0, -29)
-        });
-
-        autocomplete.addListener('place_changed', function() {
-            infowindow.close();
-            marker.setVisible(false);
-            var place = autocomplete.getPlace();
-            if (!place.geometry) {
-                // User entered the name of a Place that was not suggested and
-                // pressed the Enter key, or the Place Details request failed.
-                window.alert("No details available for input: '" + place.name + "'");
-                return;
-            }
-
-            // If the place has a geometry, then present it on a map.
-            if (place.geometry.viewport) {
-                map.fitBounds(place.geometry.viewport);
-            } else {
-                map.setCenter(place.geometry.location);
-                map.setZoom(17);  // Why 17? Because it looks good.
-            }
-            marker.setPosition(place.geometry.location);
-            marker.setVisible(true);
-
-            var address = '';
-            if (place.address_components) {
-                address = [
-                    (place.address_components[0] && place.address_components[0].short_name || ''),
-                    (place.address_components[1] && place.address_components[1].short_name || ''),
-                    (place.address_components[2] && place.address_components[2].short_name || '')
-                ].join(' ');
-            }
-
-            infowindowContent.children['place-icon'].src = place.icon;
-            infowindowContent.children['place-name'].textContent = place.name;
-            infowindowContent.children['place-address'].textContent = address;
-            infowindow.open(map, marker);
-        });
-
-        // Sets a listener on a radio button to change the filter type on Places
-        // Autocomplete.
-        function setupClickListener(id, types) {
-            var radioButton = document.getElementById(id);
-            radioButton.addEventListener('click', function() {
-                autocomplete.setTypes(types);
-            });
-        }
-
-        setupClickListener('changetype-all', []);
-        setupClickListener('changetype-address', ['address']);
-        setupClickListener('changetype-establishment', ['establishment']);
-        setupClickListener('changetype-geocode', ['geocode']);
-
-        document.getElementById('use-strict-bounds')
-            .addEventListener('click', function() {
-                console.log('Checkbox clicked! New state=' + this.checked);
-                autocomplete.setOptions({strictBounds: this.checked});
-            });
-    }
+        map.fitBounds(place.geometry.viewport);
+        marker.setPosition(place.geometry.location);
+        marker.setVisible(true);
+        window.localStorage.setItem('lat', map.center.lat());
+        window.localStorage.setItem('lng', map.center.lng());
+        window.localStorage.setItem('city', document.getElementById('pac-input').value);
+    });
 };
 
-autocomplete.createDOM();
-autocomplete.initAutocomplete();
+autocomplete.turnOn = function () {
+    this.createDOM();
+    this.initMap();
+};
+
+autocomplete.turnOn();

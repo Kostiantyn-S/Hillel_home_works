@@ -10,3 +10,4 @@
 //=require partials/studentsTable/activateForm.js
 //=require partials/progressbar.js
 //=require partials/mapAutocomplete.js
+//=require partials/weather.js
