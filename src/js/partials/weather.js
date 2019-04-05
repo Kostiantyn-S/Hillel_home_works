@@ -32,17 +32,9 @@ weather.getWeather = function () {
         );
 };
 
-weather.refreshWeather = function () {
-    let self = this;
-    document.getElementById('pac-input').addEventListener('change', () => {
-        self.getWeather();
-    });
-};
-
 weather.turnOn = function () {
     this.createDOM();
     this.getWeather();
-    this.refreshWeather();
 };
 
 weather.turnOn();

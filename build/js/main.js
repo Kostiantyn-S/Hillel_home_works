@@ -1361,6 +1361,7 @@ autocomplete.initMap = function () {
         window.localStorage.setItem('lat', map.center.lat());
         window.localStorage.setItem('lng', map.center.lng());
         window.localStorage.setItem('city', document.getElementById('pac-input').value);
+        weather.getWeather();
     });
 };
 
@@ -1395,17 +1396,9 @@ weather.getWeather = function () {
     });
 };
 
-weather.refreshWeather = function () {
-    var self = this;
-    document.getElementById('pac-input').addEventListener('change', function () {
-        self.getWeather();
-    });
-};
-
 weather.turnOn = function () {
     this.createDOM();
     this.getWeather();
-    this.refreshWeather();
 };
 
 weather.turnOn();
