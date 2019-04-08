@@ -708,6 +708,7 @@ function studentsTableCreateDOM() {
         element.create('studentsForm-siteAddButton', 'div').id('studentsForm-site').class('studentsForm-inputConteiner').position(0);
         element.create('studentsForm-site', 'label').id('label-site').class('studentsForm-label').for('input-site').innerHTML('Site: ').position(0);
         element.create('studentsForm-site', 'input').id('input-site').class('studentsForm-input').type('text').placeholder('www.google.com').position(1);
+        element.create('studentsForm-site', 'span').id('message-site').class('studentsForm-message').innerHTML('Please write in format www.site.com.').position(2);
 
         element.create('studentsForm-siteAddButton', 'input').type('button').value('Add / Save').id('button-add').class('studentsForm-button').position(1);
         element.create('studentsForm-siteAddButton', 'input').type('button').value('Change').id('button-change').class('studentsForm-button').position(2);
@@ -779,6 +780,18 @@ var FormValidation = function () {
                 document.getElementById(popupId).style.visibility = "hidden";
             }
         }
+    }, {
+        key: 'validateURL',
+        value: function validateURL(inputId, popupId) {
+            var element = document.getElementById(inputId);
+            var regExp = /^((ftp|http|https):\/\/)?www\.([A-z]+)\.([A-z]{2,})/;
+
+            if (regExp.test(element.value)) {
+                document.getElementById(popupId).style.visibility = "hidden";
+            } else {
+                document.getElementById(popupId).style.visibility = "visible";
+            }
+        }
     }]);
 
     return FormValidation;
@@ -810,6 +823,12 @@ function turnOnValidation() {
     (function validateEnding() {
         document.getElementById('input-ending').addEventListener('input', function () {
             validation.validateNumber('input-ending', 'message-ending');
+        });
+    })();
+
+    (function validateSite() {
+        document.getElementById('input-site').addEventListener('input', function () {
+            validation.validateURL('input-site', 'message-site');
         });
     })();
 }
@@ -976,7 +995,7 @@ var FormFunctions = function () {
 
         (function add() {
             document.getElementById('button-add').addEventListener('click', function () {
-                if (document.getElementById('input-name').value !== '' && document.getElementById('input-surname').value !== '' && document.getElementById('input-admission').value !== '' && document.getElementById('input-ending').value !== '' && document.getElementById('message-name').style.visibility !== "visible" && document.getElementById('message-surname').style.visibility !== "visible" && document.getElementById('message-admission').style.visibility !== "visible" && document.getElementById('message-ending').style.visibility !== "visible") {
+                if (document.getElementById('input-name').value !== '' && document.getElementById('input-surname').value !== '' && document.getElementById('input-admission').value !== '' && document.getElementById('input-ending').value !== '' && document.getElementById('input-site').value !== '' && document.getElementById('message-site').style.visibility !== "visible" && document.getElementById('message-name').style.visibility !== "visible" && document.getElementById('message-surname').style.visibility !== "visible" && document.getElementById('message-admission').style.visibility !== "visible" && document.getElementById('message-ending').style.visibility !== "visible") {
                     functions.addData('studentsTable', 'input-name', 'input-surname', 'input-admission', 'input-ending', 'input-site');
                     functions.clearForm('input-name', 'input-surname', 'input-admission', 'input-ending', 'input-site');
                     functions.deleteBackground();

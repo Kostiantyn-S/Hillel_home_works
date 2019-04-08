@@ -135,6 +135,7 @@ class FormFunctions {
             document.getElementById('button-add').addEventListener ('click', function () {
                 if (document.getElementById('input-name').value !== '' && document.getElementById('input-surname').value !== '' &&
                     document.getElementById('input-admission').value !== '' && document.getElementById('input-ending').value !== '' &&
+                    document.getElementById('input-site').value !== '' && document.getElementById('message-site').style.visibility !== "visible" &&
                     document.getElementById('message-name').style.visibility !== "visible" && document.getElementById('message-surname').style.visibility !== "visible" &&
                     document.getElementById('message-admission').style.visibility !== "visible" && document.getElementById('message-ending').style.visibility !== "visible") {
                     functions.addData('studentsTable', 'input-name', 'input-surname', 'input-admission', 'input-ending', 'input-site');

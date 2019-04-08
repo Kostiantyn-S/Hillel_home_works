@@ -40,6 +40,7 @@ function studentsTableCreateDOM () {
         element.create('studentsForm-siteAddButton', 'div').id('studentsForm-site').class('studentsForm-inputConteiner').position(0);
         element.create('studentsForm-site', 'label').id('label-site').class('studentsForm-label').for('input-site').innerHTML('Site: ').position(0);
         element.create('studentsForm-site', 'input').id('input-site').class('studentsForm-input').type('text').placeholder('www.google.com').position(1);
+        element.create('studentsForm-site', 'span').id('message-site').class('studentsForm-message').innerHTML('Please write in format www.site.com.').position(2);
 
         element.create('studentsForm-siteAddButton', 'input').type('button').value('Add / Save').id('button-add').class('studentsForm-button').position(1);
         element.create('studentsForm-siteAddButton', 'input').type('button').value('Change').id('button-change').class('studentsForm-button').position(2);

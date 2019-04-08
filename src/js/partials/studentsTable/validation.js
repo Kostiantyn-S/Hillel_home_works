@@ -31,6 +31,17 @@ class FormValidation {
             document.getElementById(popupId).style.visibility = "hidden";
         }
     };
+
+    validateURL (inputId, popupId) {
+        let element = document.getElementById(inputId);
+        let regExp = /^((ftp|http|https):\/\/)?www\.([A-z]+)\.([A-z]{2,})/;
+
+        if (regExp.test(element.value)) {
+            document.getElementById(popupId).style.visibility = "hidden";
+        } else {
+            document.getElementById(popupId).style.visibility = "visible";
+        }
+    };
 }
 
 function turnOnValidation () {
@@ -59,6 +70,12 @@ function turnOnValidation () {
     (function validateEnding () {
         document.getElementById('input-ending').addEventListener ('input', function () {
             validation.validateNumber('input-ending', 'message-ending');
+        });
+    })();
+
+    (function validateSite () {
+        document.getElementById('input-site').addEventListener ('input', function () {
+            validation.validateURL('input-site', 'message-site');
         });
     })();
 }
